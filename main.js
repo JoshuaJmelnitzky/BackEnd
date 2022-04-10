@@ -1,50 +1,90 @@
-class Usuario{
-    constructor(nombre,apellido,libros,mascotas){
-        this.nombre = nombre;
-        this.apellido = apellido;
-        this.libros = libros;
-        this.mascotas = mascotas;
+let fs = require('fs');
+let id = 1;
+
+class Contenedor{
+
+    constructor(name){
+        this.name = name;
+        this.array = [];
+    }
+ 
+
+    save = async (obj) => {
+        try{
+            let read = await fs.promises.readFile(`${this.name}.json`, "utf-8");
+            if (!read){
+                this.array.push(obj);
+                await fs.promises.writeFile(`${this.name}.json`, JSON.stringify(this.array.map(prod => ({...prod, id: 1})), null, 2), "utf-8");
+            }else{
+                let file = JSON.parse(read);
+                file.push(obj);
+                await fs.promises.writeFile(`${this.name}.json`, JSON.stringify(file.map(prod => ({...prod, id: id++})), null, 2), "utf-8");
+                return file.length;
+            }
+            return 1;
+
+        }catch(err){
+            console.log('Error al escribir');
+        }
     }
 
-    getFullName(){
-        return `${this.nombre} ${this.apellido}`;
+
+    getById = async (num) => {
+        try{
+            let read = JSON.parse(await fs.promises.readFile(`${this.name}.json`, "utf-8"));
+            return read.find(prod => prod.id === num);
+        }catch(err){
+            console.log("Error en la lectura");
+        }
     }
 
-    addMascota(mascota){
-        this.mascotas.push(mascota);
+
+    getAll = async () => {
+        try{
+            let read = JSON.parse(await fs.promises.readFile(`${this.name}.json`, "utf-8"));
+            return read;
+        }catch(err){
+            console.log("Error en la lectura");
+        }
     }
 
-    countMascotas(){
-        return this.mascotas.length;
+
+    deleteById = async (num) => {
+        try{
+            let read = JSON.parse(await fs.promises.readFile(`${this.name}.json`, "utf-8"));
+            read.splice(num-1, 1);
+
+            await fs.promises.writeFile(`${this.name}.json`, JSON.stringify(read, null, 2), "utf-8");
+
+        }catch(err){
+            console.log('Error al borrar');
+        }
     }
 
-    addBook(nombre, autor){
-        this.libros.push({nombre: nombre, autor: autor});
-    }
 
-    getBookNames(){
-        return this.libros.map(libro => libro.nombre);
+    deleteAll = async () =>{
+        await fs.promises.writeFile(`${this.name}.json`, '', "utf-8");
     }
-
 }
 
 
-// class instance
-let usuario = new Usuario('Joshua', 'Jmelnitzky', [{nombre: "Código Limpio", autor: "Robert C. Martin"}], ['Ares']);
+// class Instance
+let producto = new Contenedor("Productos");
 
-// Test getFullName()
-console.log('Get full name: ', usuario.getFullName());
+//  Save()  --> uncomment code below
+producto.save({title: "Escuadra", price: 123.45, thumbnail: 'https://cdn3.iconfinder.com/data/icons/education-209/64/ruler-triangle-stationary-school-256.png'}).then(res => console.log(res));
 
-// addMascota()
-usuario.addMascota('Zeus');
+// getById()  --> uncomment code below
+// producto.getById(1).then(res => console.log(res));
 
-// countMascotas()
-console.log(`Tiene ${usuario.countMascotas()} mascotas`);
+// getAll()  --> uncomment code below
+// producto.getAll().then(res => console.log(res));
 
-// addBook
-usuario.addBook("The Pragmatic Programmer", "Andy Hunt");
+// deleteById()  --> uncomment code below
+//producto.deleteById(2);
 
-// getBookNames()
-console.log("Book names: ", usuario.getBookNames());
+// deleteAll()  --> uncomment code below
+// producto.deleteAll();
+
 
 
