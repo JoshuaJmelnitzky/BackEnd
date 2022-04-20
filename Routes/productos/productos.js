@@ -1,5 +1,7 @@
 const express = require('express');
 const Contenedor = require('../../contenedor');
+const fs = require('fs');
+
 
 let producto = new Contenedor("Productos");
 
@@ -29,27 +31,37 @@ router.post('/productos', (req, res) => {
 
 
 router.put('/productos/:id', (req, res) => {
+
+    let read = JSON.parse(fs.readFileSync(`${producto.name}.json`));
+    
     let id = parseInt(req.params.id);
-    producto.getById(id).then((prod)=>{
 
-        let {title, price, thumbnail} = req.body;
+    if (read.length >= id){
 
-        let actulizacion = {title, price, thumbnail, id} ;
+        read [id-1] = {...req.body, id: id};
+    
+        fs.writeFileSync(`${producto.name}.json`, JSON.stringify(read,null,2));
 
-        res.send({Producto:prod, Cambio:actulizacion})
-    });
+        res.send(`Producto modificado`);
+
+    }else{
+        res.send(`No existe el ID: ${id}`);
+    }
 }) 
 
 
 router.delete('/productos/:id', (req, res) => {
 
     let id = parseInt(req.params.id);
+
     producto.deleteById(id).then((resp)=>{
+
         if (resp){
             res.json(resp);
         }else{
             res.send(`El producto con ID: ${id} no existe`);
         }
+        
     })
 }) 
 
