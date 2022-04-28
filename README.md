@@ -11,7 +11,7 @@ comparado a
 ```
 
 ``` sh 
-<% data.forEach( (pr) => { %>  BLOQUE REPETIVO EJS  <% }) %>  > 
+<% data.forEach( (pr) => { %>  BLOQUE REPETITIVO EJS  <% }) %>  > 
 comparado a   
 {{#each data}} BLOQUE REPETITIVO HANDLEBARS {{/each}}
 ```
