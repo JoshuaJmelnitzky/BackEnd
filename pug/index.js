@@ -20,13 +20,17 @@ app.set("views", "./pug/views");
 
 app.get('/productos', (req, res) => {
     producto.getAll().then((prod) => {
-        res.render("productos", {data: prod})
+        if(prod.length > 0){
+            res.render("productos", {data: prod});
+        }else{
+            res.render("productosEmpty");
+        }
     });
 })  
 
 
 const server = app.listen(8080, ()=>{
-    console.log(`Servidor corriendo en ${server.address().port}`)
+    console.log(`Servidor corriendo en ${server.address().port}`);
 })
 
 

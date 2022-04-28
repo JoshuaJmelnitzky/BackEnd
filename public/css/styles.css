@@ -37,7 +37,7 @@ main{
 
 .table-padding{
     width: 60%;
-    padding: 20px;
+    padding-top: 20px;
     background: white;
     box-shadow: 0 0 15px #ddd;
 }
@@ -54,6 +54,12 @@ main{
 }
 
 
+.productos__empty--center{
+    text-align: center;
+    padding: 50px 0; 
+}
+
+
 body form{
     background: white;
     height: 30vw;
@@ -66,7 +72,7 @@ body form{
 
 
 tr{
-    border-color: black;
+    border-color: white;
 }
 
 
