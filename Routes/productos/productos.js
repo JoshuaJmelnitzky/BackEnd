@@ -25,8 +25,7 @@ router.post('/productos', (req, res) => {
     let {title, price, thumbnail} = req.body;
 
     producto.save({title, price, thumbnail})
-        .then(prod => producto.getById(parseInt(prod)))
-        .then(prod => res.send(prod));   
+    res.redirect('/');   
 })
 
 
