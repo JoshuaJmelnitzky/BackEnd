@@ -1,0 +1,31 @@
+[
+  {
+    "title": "Escuadra",
+    "descripcion": "Escuadra de 45 grados",
+    "price": 123.45,
+    "stock": 50,
+    "codigo": 2222,
+    "thumbnail": "https://cdn3.iconfinder.com/data/icons/education-209/64/ruler-triangle-stationary-school-256.png",
+    "timestamp": 1652388266394,
+    "id": 1
+  },
+  {
+    "title": "Calculadora",
+    "descripcion": "Calculadora científica",
+    "price": 234.56,
+    "stock": 30,
+    "codigo": 9870,
+    "thumbnail": "https://cdn3.iconfinder.com/data/icons/education-209/64/calculator-math-tool-school-256.png",
+    "id": 2
+  },
+  {
+    "title": "Globo Terraqueo",
+    "descripcion": "Diámetro 30cm, Altura 30cm, peso 1,2kg",
+    "price": 345.67,
+    "stock": 12,
+    "codigo": 22222,
+    "thumbnail": "https://cdn3.iconfinder.com/data/icons/education-209/64/globe-earth-geograhy-planet-scho",
+    "timestamp": 1652388266394,
+    "id": 3
+  }
+]
