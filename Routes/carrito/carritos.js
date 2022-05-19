@@ -45,6 +45,7 @@ router.get('/:id/productos', (req, res) => {
 
 
 router.post('/:id/productos/:id_prod', (req, res) => {
+    console.time('testTime');
 
     let id = parseInt(req.params.id);
     let id_prod = req.params.id_prod;
@@ -68,6 +69,8 @@ router.post('/:id/productos/:id_prod', (req, res) => {
         }
         
     })
+
+    console.timeEnd('testTime');
 })
 
 

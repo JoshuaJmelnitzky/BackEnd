@@ -10,6 +10,15 @@
         "thumbnail": "https://cdn3.iconfinder.com/data/icons/education-209/64/ruler-triangle-stationary-school-256.png",
         "timestamp": 1652388266394,
         "id": 1
+      },
+      {
+        "title": "Calculadora",
+        "descripcion": "Calculadora científica",
+        "price": 234.56,
+        "stock": 30,
+        "codigo": 9870,
+        "thumbnail": "https://cdn3.iconfinder.com/data/icons/education-209/64/calculator-math-tool-school-256.png",
+        "id": 2
       }
     ],
     "timestamp": 1652402512845,
