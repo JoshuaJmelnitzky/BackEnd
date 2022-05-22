@@ -24,10 +24,8 @@ router.get('/:id?', (req, res) => {
 router.post('/', (req, res) => {
 
     producto.save(req.body)
-        .then(() => res.send("Registro creado"))
-        .catch((err) =>  {
-            throw err;
-        })
+
+    res.redirect('/');  
 });
 
 

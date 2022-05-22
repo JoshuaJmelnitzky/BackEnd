@@ -14,7 +14,7 @@ const knex = require("knex")({
     }
 });
 
-// create table
+// create table for products
 knex.schema.createTableIfNotExists("productos", (table) => {
     table.increments("id").primary()
     table.string("title")
@@ -29,6 +29,22 @@ knex.schema.createTableIfNotExists("productos", (table) => {
     .catch((err)=> {
         throw err;
     })
+
+
+// create table por chat
+knex.schema.createTableIfNotExists("mensajes", (table) => {
+    table.increments("id").primary()
+    table.string("email")
+    table.string("msn")
+    table.dateTime("date", { precision: 6 }).defaultTo(knex.fn.now(6))
+})
+.then(()=> {
+    console.log("Conexion y tabla creada")
+})
+.catch((err) => {
+    throw err;
+})
+
 
 // export module    
 module.exports = knex;
