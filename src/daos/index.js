@@ -1,7 +1,6 @@
 let productosDao
 let carritosDao
 
-
 switch (process.env.PERS) {
     case 'json':
         const { default: ProductosDaoArchivo } = await import('./productos/ProductosDaoArchivo.js')
@@ -23,20 +22,6 @@ switch (process.env.PERS) {
 
         productosDao = new ProductosDaoMongoDb()
         carritosDao = new CarritosDaoMongoDb()
-        break
-    case 'mariadb':
-        const { default: ProductosDaoMariaDb } = await import('./productos/ProductosDaoMariaDb.js')
-        const { default: CarritosDaoMariaDb } = await import('./carritos/CarritosDaoMariaDb.js')
-
-        productosDao = new ProductosDaoMariaDb()
-        carritosDao = new CarritosDaoMariaDb()
-        break
-    case 'sqlite3':
-        const { default: ProductosDaoSQLite3 } = await import('./productos/ProductosDaoSQLite3.js')
-        const { default: CarritosDaoSQLite3 } = await import('./carritos/CarritosDaoSQLite3.js')
-
-        productosDao = new ProductosDaoSQLite3()
-        carritosDao = new CarritosDaoSQLite3()
         break
     default:
         const { default: ProductosDaoMem } = await import('./productos/ProductosDaoMem.js')

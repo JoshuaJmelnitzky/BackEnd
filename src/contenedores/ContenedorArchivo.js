@@ -1,79 +1,86 @@
-import fs from 'fs';
+import { promises as fs } from 'fs'
+import config from '../config.js'
 
-let id = 1;
+class ContenedorArchivo {
 
-
-class ContenedorArchivo{
-    constructor(name){
-        this.name = name;
+    constructor(ruta) {
+        this.ruta = `${config.fileSystem.path}/${ruta}`;
     }
- 
 
-    save = async (obj) => {
-        try{
-            if(fs.existsSync(`./db/${this.name}.json`)){
-                let read = await fs.promises.readFile(`./db/${this.name}.json`, "utf-8");
-                let file = JSON.parse(read);
-                file.push(obj);
-                await fs.promises.writeFile(`./db/${this.name}.json`, JSON.stringify(file.map(prod => ({...prod, id: id++})), null, 2), "utf-8");
-                return file.length;
-            }else{
-                await fs.promises.writeFile(`./db/${this.name}.json`, JSON.stringify([{...obj, id: 1}], null, 2), "utf-8");
+    async listar(id) {
+        const objs = await this.listarAll()
+        const buscado = objs.find(o => o.id == id)
+        return buscado
+    }
+
+    async listarAll() {
+        try {
+            const objs = await fs.readFile(this.ruta, 'utf-8')
+            return JSON.parse(objs)
+        } catch (error) {
+            return []
+        }
+    }
+
+    async guardar(obj) {
+        const objs = await this.listarAll()
+
+        let newId
+        if (objs.length == 0) {
+            newId = 1
+        } else {
+            newId = objs[objs.length - 1].id + 1
+        }
+
+        const newObj = { ...obj, id: newId }
+        objs.push(newObj)
+
+        try {
+            await fs.writeFile(this.ruta, JSON.stringify(objs, null, 2))
+            return newObj
+        } catch (error) {
+            throw new Error(`Error al guardar: ${error}`)
+        }
+    }
+
+    async actualizar(elem) {
+        const objs = await this.listarAll()
+        const index = objs.findIndex(o => o.id == elem.id)
+        if (index == -1) {
+            throw new Error(`Error al actualizar: no se encontró el id ${id}`)
+        } else {
+            objs[index] = elem
+            try {
+                await fs.writeFile(this.ruta, JSON.stringify(objs, null, 2))
+            } catch (error) {
+                throw new Error(`Error al actualizar: ${error}`)
             }
-            
-            return 1;
-
-        }catch(err){
-            console.log('Error al escribir');
         }
     }
 
+    async borrar(id) {
+        const objs = await this.listarAll()
+        const index = objs.findIndex(o => o.id == id)
+        if (index == -1) {
+            throw new Error(`Error al borrar: no se encontró el id ${id}`)
+        }
 
-    getById = async (num) => {
-        try{
-            let read = JSON.parse(await fs.promises.readFile(`./db/${this.name}.json`, "utf-8"));
-            let findProd = read.find(prod => prod.id === num);
-            
-            return findProd? findProd : "El ID ingresado no corresponde a un producto";  
-
-        }catch(err){
-            console.log("Error en la lectura");
+        objs.splice(index, 1)
+        try {
+            await fs.writeFile(this.ruta, JSON.stringify(objs, null, 2))
+        } catch (error) {
+            throw new Error(`Error al borrar: ${error}`)
         }
     }
 
-
-    getAll = async () => {
-        try{
-            return JSON.parse(await fs.promises.readFile(`./db/${this.name}.json`, "utf-8"));
-        }catch(err){
-            console.log("Error en la lectura");
+    async borrarAll() {
+        try {
+            await fs.writeFile(this.ruta, JSON.stringify([], null, 2))
+        } catch (error) {
+            throw new Error(`Error al borrar todo: ${error}`)
         }
-    }
-
-
-    deleteById = async (num) => {
-        try{
-            let read = JSON.parse(await fs.promises.readFile(`./db/${this.name}.json`, "utf-8"));
-
-            let index = read.findIndex(prod => prod.id  === num);
-
-            if (index !== -1){
-                let erase = read.splice(index, 1);
-                await fs.promises.writeFile(`./db/${this.name}.json`, JSON.stringify(read, null, 2), "utf-8");
-                return erase;
-            }else{
-                console.log(`No existe producto con ID: ${num}`);
-            }
-
-        }catch(err){
-            console.log('Error al borrar');
-        }
-    }
-
-
-    deleteAll = async () =>{
-        await fs.promises.writeFile(`./db/${this.name}.json`, '[]', "utf-8");
     }
 }
 
-export default ContenedorArchivo;
+
+export default ContenedorArchivo
