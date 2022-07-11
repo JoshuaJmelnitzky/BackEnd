@@ -41,12 +41,27 @@
                 
             </form>
 
-            <h1>Chat</h1>
+            <h1 class="compresion">Chat</h1>
             <form class="chat-form" onsubmit="return addInfo()" >
                 <div class="chat-container">
 
                     <label for="title">Email*</label>
-                    <input type="text" name="email" id="nb" required>
+                    <input type="email" name="id" id="nb" required>
+
+                    <label for="title">Nombre*</label>
+                    <input type="text" name="name" id="ne" required>
+
+                    <label for="title">Apellido*</label>
+                    <input type="text" name="lastName" id="ltNe" required>
+
+                    <label for="title">Alias*</label>
+                    <input type="text" name="alias" id="al" required>
+
+                    <label for="title">Edad*</label>
+                    <input type="number" name="age" id="age" required>
+
+                    <label for="title">Avatar*</label>
+                    <input type="text" name="thumbnail" id="th" required>
 
                     <label for="title">Mensaje*</label>
                     <input type="text" name="message" id="msn" required>
@@ -62,6 +77,7 @@
 
         </main>
         
+        <script src="https://cdn.jsdelivr.net/npm/normalizr@3.6.1/dist/normalizr.browser.min.js"></script>
         <script src="/socket.io/socket.io.js"></script>
         <script src="./client.js"></script>
     </body>

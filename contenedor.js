@@ -1,4 +1,6 @@
 const knex = require('./src/db');
+const norm = require ("normalizr");
+const normalizrSchema = require("./utils/normalize");
 
 class Contenedor{
 
@@ -9,7 +11,15 @@ class Contenedor{
 
     save = async (obj) => {
         try{
-            await knex(this.name).insert(obj);
+            await knex(this.name).insert({
+                email: obj.author.id,
+                name: obj.author.name,
+                lastName: obj.author.lastName,
+                alias: obj.author.alias,
+                age: obj.author.age,
+                thumbnail: obj.author.thumbnail,
+                msn: obj.msn,
+            });
         }
         catch(err){
             console.log("Error en la escritura");
@@ -29,7 +39,25 @@ class Contenedor{
 
     getAll = async () => {
         try{
-            return await knex.from(this.name).select("*");
+            let chatArray = [];
+            let id = 0;
+            let getAll =  await knex.from(this.name).select("*");
+            for (let mensaje of getAll){
+                chatArray.push({
+                    id: id++,
+                    msn: mensaje.msn,
+                    date: mensaje.date,
+                    author: {
+                        id: mensaje.email,
+                        name: mensaje.name,
+                        lastName: mensaje.lastName,
+                        alias: mensaje.alias,
+                        age: mensaje.age,
+                        thumbnail: mensaje.thumbnail,
+                    }
+                })    
+            }
+            return chatArray;
 
         }catch(err){
             console.log("Error en la consulta");
@@ -59,6 +87,11 @@ class Contenedor{
         }catch(err){
             console.log('Error al borrar');
         }
+    }
+
+    normalize = async () => {
+        const messages = await this.getAll();
+        return norm.normalize(messages, [normalizrSchema]);   
     }
 
 }

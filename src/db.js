@@ -35,6 +35,11 @@ knex.schema.createTableIfNotExists("productos", (table) => {
 knex.schema.createTableIfNotExists("mensajes", (table) => {
     table.increments("id").primary()
     table.string("email")
+    table.string("name")
+    table.string("lastName")
+    table.string("alias")
+    table.integer("age")
+    table.string("thumbnail")
     table.string("msn")
     table.dateTime("date", { precision: 6 }).defaultTo(knex.fn.now(6))
 })

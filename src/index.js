@@ -3,7 +3,6 @@ const {engine} = require("express-handlebars");
 const productosRutes = require('../Routes/productos/productos');
 const Contenedor = require('../contenedor');
 const {faker} = require('@faker-js/faker');
-
 let producto = new Contenedor("Productos");
 let chat = new Contenedor("mensajes");
 
@@ -59,23 +58,23 @@ const http = require("http");
 const server = http.createServer(app);
 const io = require("socket.io")(server);
 
-
 io.on("connection", (socket) =>{
     console.log("Cliente conectado")
 
     // Previous messages
-    chat.getAll().then((resp) => {
-        socket.emit("mensaje", resp);   
-    });
-    
+   
+    chat.normalize().then((resp) => {
+        socket.emit('mensaje', resp);
+    })
+
     // Current messages
-    socket.on("dataChat", (data) =>{
+    socket.on("dataChat", (data) => {
 
         chat.save(data).then( () => {
             console.log("Mensaje añadido");
-            
-            chat.getAll().then((resp) => {
-                io.sockets.emit("mensaje", resp);
+        
+            chat.normalize().then((resp) => {
+                socket.emit('mensaje', resp);
             })
         });  
 
