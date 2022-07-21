@@ -16,6 +16,15 @@
 
     <body>
         <main>
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="offset-md-4 col-md-8  banner__name">
+                        <h2>Bienvenido {{this.name}}</h2>
+                        <a href="./logout"><button class="bg-danger">LogOut</button></a>
+                    </div>
+                </div>
+            </div>
+
             <h1>Nuevo producto</h1>
             <form action="/api/productos" method = "post">
                 <div class="form-container">
