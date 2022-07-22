@@ -6,6 +6,8 @@ const {faker} = require('@faker-js/faker');
 const session = require('express-session');
 const MongoStore = require('connect-mongo');
 require("dotenv").config();
+const { MONGO_CONNECTION } = process.env;
+const passport = require('./passport')
 
 let producto = new Contenedor("Productos");
 let chat = new Contenedor("mensajes");
@@ -17,7 +19,7 @@ app.use(express.urlencoded({extended:true}));
 
 app.use(session({
     store: MongoStore.create({
-        mongoUrl: process.env.mongo__connection,
+        mongoUrl: MONGO_CONNECTION,
         dbName: 'ecommerce',
         ttl: 10 * 60,
         mongoOptions: {
@@ -28,11 +30,12 @@ app.use(session({
     secret: 'Joshua',
     resave: true,
     rolling: true,
-    cookie: {
-        maxAge: 60000
-    },
     saveUninitialized: false
 }));
+
+
+app.use(passport.initialize());
+app.use(passport.session());
 
 
 app.use("/api/productos", productosRutes);
@@ -42,14 +45,15 @@ app.set("view engine", "hbs");
 app.set("views", "./handlebars/views");
 
 
+// Midlewares
 const requiereAutenticacion = (req, res, next) => {
-    if (req.session.usuario) return next();
+    if (req.isAuthenticated()) return next();
     res.render('logIn');
 };
 
 
 const rechazaAutenticado = (req, res, next)=> {
-    if (req.session.usuario) return res.render('index', {name: req.session.usuario});
+    if (req.isAuthenticated()) return res.render('index', {name: req.session.usuario});
     next();
 };
 
@@ -63,6 +67,11 @@ app.engine("hbs", engine({
 );
 
 
+app.get('/', requiereAutenticacion, (req, res) => {
+    res.render("index", {name: req.session.usuario});
+})  
+
+
 app.get('/productos', (req, res) => {
     producto.getAll().then((prod) => {
         if(prod.length > 0){
@@ -74,17 +83,40 @@ app.get('/productos', (req, res) => {
 });
 
 
+// Rutas de registro de nuevo usuario.
+app.get("/signup", rechazaAutenticado, (req,res)=> {
+    res.render("signup");
+});
+
+
+app.post('/signup', passport.authenticate('signup', {failureRedirect: '/failsignup', failureMessage: true}), (req, res) => {
+    res.render('login');
+});
+
+
+app.get("/failsignup", rechazaAutenticado, (req,res)=> {
+    res.render("failedSignUp");
+});
+
+
+// Rutas de inicio de sesión de usuario ya registrado
 app.get('/login', rechazaAutenticado, (req, res) => {
     res.render("logIn");
 });
 
 
-app.post("/login", rechazaAutenticado, (req,res)=> {
-   req.session.usuario = req.body.name;
-   res.redirect('./');
+app.post("/login", passport.authenticate('login', {failureRedirect: '/faillogin', failureMessage: true}), (req,res)=> {
+    req.session.usuario = req.body.username;
+    res.redirect('./');
 })
 
 
+app.get("/faillogin", rechazaAutenticado, (req,res)=> {
+    res.render("failedLogIn");
+});
+
+
+// Cerrar sesión
 app.get('/logout', requiereAutenticacion, (req, res) => {
     const user = req.session.usuario;
     req.session.destroy((err) => {
@@ -92,11 +124,6 @@ app.get('/logout', requiereAutenticacion, (req, res) => {
         res.render('logOut', {name: user});
     });
 });
-
-
-app.get('/', requiereAutenticacion, (req, res) => {
-    res.render("index", {name: req.session.usuario});
-})  
 
 
 // Random data

@@ -156,11 +156,11 @@ button:hover {
 }
 
 
-.logout__background{
+.logout__background, .signUpError__background, .logInError__background{
     background: white;
     border-radius: 4px;
     margin: 20px 0;
-    padding: 12px 20px;
+    padding: 50px;
     box-shadow: 0 0 15px #ddd;
 }
 

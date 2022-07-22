@@ -1,17 +1,17 @@
-<h1>Login de usuario</h1>
+<h1>Registro de usuario</h1>
 
-<form action="/login" method="post">
+<form action="/signup" method="post">
     <div class="form-container">
 
         <label for="name">Email*</label>
         <input type="email" name="username" required>
 
         <label for="name">Contraseña*</label>
-        <input type="password" name="password" required>
+        <input type="text" name="password" required>
                
         <div class="button-container"> 
-            <button type="submit">Login</button>     
-            <a href="/signup"><button type="button">Sign Up</button></a>     
+            <a href="/login"><button type="button">Login</button></a>
+            <button type="submit">Enviar</button>
         </div>
         
     </div>
