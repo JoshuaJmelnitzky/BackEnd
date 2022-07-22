@@ -49,7 +49,7 @@ const requiereAutenticacion = (req, res, next) => {
 
 
 const rechazaAutenticado = (req, res, next)=> {
-    if (req.session.usuario) return res.render('index');
+    if (req.session.usuario) return res.render('index', {name: req.session.usuario});
     next();
 };
 
