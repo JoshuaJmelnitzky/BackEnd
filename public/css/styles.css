@@ -156,10 +156,10 @@ button:hover {
 }
 
 
-.logout__background, .signUpError__background, .logInError__background{
+.logout__background, .signUpError__background, .logInError__background, .info__background{
     background: white;
     border-radius: 4px;
-    margin: 20px 0;
+    margin: 20px auto;
     padding: 50px;
     box-shadow: 0 0 15px #ddd;
 }

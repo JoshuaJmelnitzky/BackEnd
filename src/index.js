@@ -1,13 +1,16 @@
 const express = require("express");
 const {engine} = require("express-handlebars");
 const productosRutes = require('../Routes/productos/productos');
+const randomRoutes = require('../Routes/numberRandom/numberRandom');
 const Contenedor = require('../contenedor');
 const {faker} = require('@faker-js/faker');
 const session = require('express-session');
 const MongoStore = require('connect-mongo');
 require("dotenv").config();
+const yargs = require('yargs');
 const { MONGO_CONNECTION } = process.env;
 const passport = require('./passport')
+
 
 let producto = new Contenedor("Productos");
 let chat = new Contenedor("mensajes");
@@ -39,6 +42,7 @@ app.use(passport.session());
 
 
 app.use("/api/productos", productosRutes);
+app.use("/api/randoms", randomRoutes);
 app.use(express.static('public'));
 
 app.set("view engine", "hbs");
@@ -140,6 +144,25 @@ app.get('/api/productos-test', async (req, res) => {
 });
 
 
+// Info del objeto process
+app.get('/info', async (req, res) => {
+    if (arg.length === 0){
+        arg = 'No se ingresaron argumentos';
+    }
+
+    const info = {
+        inputArguments: arg,
+        platform: process.platform,
+        version: process.version,
+        memory: process.memoryUsage().rss + ' bytes',
+        path: process.execPath,
+        id: process.pid,
+        folder: process.cwd()
+    }
+    res.render('info', {info});
+});
+
+
 // Websocket
 const http = require("http");
 const server = http.createServer(app);
@@ -168,6 +191,15 @@ io.on("connection", (socket) =>{
 });
 
 
-const serverOn = server.listen(8080, () => {
+// Iniciar servidor con puerto pasado por argumento
+let arg = process.argv.slice(2);
+const parse = yargs(arg).default({
+    port: 8080
+}).alias({
+    p: 'port'
+}).argv;
+const {port} = parse;
+
+const serverOn = server.listen(port, () => {
     console.log(`Servidor corriendo en puerto ${serverOn.address().port}`);
 });
