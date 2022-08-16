@@ -23,7 +23,7 @@ knex.schema.createTableIfNotExists("productos", (table) => {
 })
 
     .then(() => {
-        console.log("Conexion y tabla creada")
+       //console.log("Conexion y tabla creada")
     })
 
     .catch((err)=> {
@@ -44,7 +44,7 @@ knex.schema.createTableIfNotExists("mensajes", (table) => {
     table.dateTime("date", { precision: 6 }).defaultTo(knex.fn.now(6))
 })
 .then(()=> {
-    console.log("Conexion y tabla creada")
+    //console.log("Conexion y tabla creada")
 })
 .catch((err) => {
     throw err;

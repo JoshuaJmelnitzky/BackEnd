@@ -9,13 +9,16 @@ const MongoStore = require('connect-mongo');
 require("dotenv").config();
 const yargs = require('yargs');
 const { MONGO_CONNECTION } = process.env;
-const passport = require('./passport')
+const passport = require('./passport');
+const cluster = require('cluster');
+const os = require('os');
 
 
 let producto = new Contenedor("Productos");
 let chat = new Contenedor("mensajes");
 
 const app = express();
+const numCpu = os.cpus().length;
 
 app.use(express.json());
 app.use(express.urlencoded({extended:true}));
@@ -157,9 +160,10 @@ app.get('/info', async (req, res) => {
         memory: process.memoryUsage().rss + ' bytes',
         path: process.execPath,
         id: process.pid,
-        folder: process.cwd()
+        folder: process.cwd(),
+        cpus: numCpu
     }
-    res.render('info', {info});
+    res.render('info', {info, puerto});
 });
 
 
@@ -194,12 +198,29 @@ io.on("connection", (socket) =>{
 // Iniciar servidor con puerto pasado por argumento
 let arg = process.argv.slice(2);
 const parse = yargs(arg).default({
-    port: 8080
+    port: 8080,
+    mode: 'fork'
 }).alias({
-    p: 'port'
+    p: 'port',
+    m: 'mode'
 }).argv;
-const {port} = parse;
+const {port, mode} = parse;
 
-const serverOn = server.listen(port, () => {
-    console.log(`Servidor corriendo en puerto ${serverOn.address().port}`);
-});
+// Modo cluster o fork 
+if(mode === 'cluster'){
+    if(cluster.isMaster){
+        for (let i = 0; i < numCpu; i++) {
+            cluster.fork();
+        }
+    }else{
+        const serverOn = server.listen(port, () => {
+            console.log(`Servidor corriendo en puerto ${serverOn.address().port}`);
+        });
+    }
+}else{
+    const serverOn = server.listen(port, () => {
+        console.log(`Servidor corriendo en puerto ${serverOn.address().port}`);
+    });
+}
+
+
