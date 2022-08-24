@@ -1,15 +1,15 @@
 const express = require("express");
 const {engine} = require("express-handlebars");
-const productosRutes = require('../Routes/productos/productos');
-const randomRoutes = require('../Routes/numberRandom/numberRandom');
-const Contenedor = require('../contenedor');
+const productosRutes = require('./Routes/productos/productos');
+const randomRoutes = require('./Routes/numberRandom/numberRandom');
+const Contenedor = require('./contenedor');
 const {faker} = require('@faker-js/faker');
 const session = require('express-session');
 const MongoStore = require('connect-mongo');
 require("dotenv").config();
 const yargs = require('yargs');
 const { MONGO_CONNECTION } = process.env;
-const passport = require('./passport');
+const passport = require('./src/passport');
 const cluster = require('cluster');
 const os = require('os');
 
