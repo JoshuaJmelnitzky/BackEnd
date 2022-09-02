@@ -205,7 +205,7 @@ if(mode === 'cluster'){
             cluster.fork();
         }
     }else{
-        const serverOn = server.listen(port, () => {
+        const serverOn = server.listen(port || 8080, () => {
             console.log(`Servidor corriendo en puerto ${serverOn.address().port}`);
         });
     }
