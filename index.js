@@ -195,7 +195,7 @@ const parse = yargs(arg).default({
     p: 'port',
     m: 'mode'
 }).argv;
-const {port, mode} = parse;
+const {mode} = parse;
 
 
 // Modo cluster o fork 
@@ -205,14 +205,15 @@ if(mode === 'cluster'){
             cluster.fork();
         }
     }else{
-        const serverOn = server.listen(port || 8080, () => {
+        const serverOn = server.listen(process.env.PORT  || 8080, () => {
             console.log(`Servidor corriendo en puerto ${serverOn.address().port}`);
         });
     }
 }else{
-    const serverOn = server.listen(port, () => {
+    const serverOn = server.listen(process.env.PORT  || 8080, () => {
         console.log(`Servidor corriendo en puerto ${serverOn.address().port}`);
     });
 }
+
 
 
