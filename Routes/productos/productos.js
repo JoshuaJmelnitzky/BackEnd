@@ -1,6 +1,7 @@
 const express = require('express');
+require('dotenv').config();
 const Contenedor = require('../../contenedor');
-
+const Producto = require('../../models/products');
 let producto = new Contenedor("productos");
 
 const { Router } = express;
@@ -8,22 +9,22 @@ const { Router } = express;
 let router = new Router();
 
 
-router.get('/:id?', (req, res) => {
-    if (req.params.id){
-        producto.getById(req.params.id)
-            .then((resp) => {
-                resp.length > 0? res.send(resp): res.send(`No existe el ID: ${req.params.id} ingresado`);
-            });
+router.get('/', async (req, res) => { 
+
+    const allproducts = await Producto.find().lean();
+    if (allproducts.length > 0){
+        res.render("productos", {data: allproducts});
     }else{
-        producto.getAll(req.params.id)
-            .then((resp) => res.send(resp));
+        res.render("productosEmpty");
     }
+    
 })
 
 
 router.post('/', (req, res) => {
 
-    producto.save(req.body)
+    const addProduct = new Producto(req.body)
+    addProduct.save();
 
     res.redirect('/');  
 });

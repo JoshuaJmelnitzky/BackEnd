@@ -6,9 +6,10 @@ const Contenedor = require('./contenedor');
 const {faker} = require('@faker-js/faker');
 const session = require('express-session');
 const MongoStore = require('connect-mongo');
+const mongoose = require('mongoose')
 require("dotenv").config();
 const yargs = require('yargs');
-const { MONGO_CONNECTION } = process.env;
+const { MONGO_CONNECTION, MONGO_CONNECTION_ECOMMERCE } = process.env;
 const passport = require('./src/passport');
 const cluster = require('cluster');
 const os = require('os');
@@ -19,6 +20,8 @@ let chat = new Contenedor("mensajes");
 
 const app = express();
 const numCpu = os.cpus().length;
+
+mongoose.connect(MONGO_CONNECTION_ECOMMERCE );
 
 app.use(express.json());
 app.use(express.urlencoded({extended:true}));
@@ -44,7 +47,7 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 
-app.use("/api/productos", productosRutes);
+app.use("/productos", productosRutes);
 app.use("/api/randoms", randomRoutes);
 app.use(express.static('public'));
 
@@ -78,16 +81,6 @@ app.get('/', requiereAutenticacion, (req, res) => {
     res.render("index", {name: req.session.usuario});
 })  
 
-
-app.get('/productos', (req, res) => {
-    producto.getAll().then((prod) => {
-        if(prod.length > 0){
-            res.render("productos", {data: prod});
-        }else{
-            res.render("productosEmpty");
-        }
-    });
-});
 
 
 // Rutas de registro de nuevo usuario.
