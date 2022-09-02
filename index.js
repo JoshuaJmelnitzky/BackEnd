@@ -9,10 +9,12 @@ const MongoStore = require('connect-mongo');
 const mongoose = require('mongoose')
 require("dotenv").config();
 const yargs = require('yargs');
+const multer = require('multer');
 const { MONGO_CONNECTION, MONGO_CONNECTION_ECOMMERCE } = process.env;
 const passport = require('./src/passport');
 const cluster = require('cluster');
 const os = require('os');
+const sendMail = require('./utils/nodemail');
 
 let chat = new ContenedorNuevo();
 
@@ -54,6 +56,18 @@ app.set("view engine", "hbs");
 app.set("views", "./handlebars/views");
 
 
+// Guardar avatar usuarios
+const storage = multer.diskStorage({
+    destination: './public/avatars',
+    filename: (req, _ , cb) => {
+        const fileName = req.body.username + ".jpeg";
+        cb(null, fileName)
+    }
+});
+
+const uploader = multer({storage});
+
+
 // Midlewares
 const requiereAutenticacion = (req, res, next) => {
     if (req.isAuthenticated()) return next();
@@ -81,14 +95,15 @@ app.get('/', requiereAutenticacion, (req, res) => {
 })  
 
 
-
 // Rutas de registro de nuevo usuario.
 app.get("/signup", rechazaAutenticado, (req,res)=> {
+    sendMail(req.body);
     res.render("signup");
 });
 
 
-app.post('/signup', passport.authenticate('signup', {failureRedirect: '/failsignup', failureMessage: true}), (req, res) => {
+app.post('/signup', uploader.single('thumbnail'), passport.authenticate('signup', {failureRedirect: '/failsignup', failureMessage: true}), (req, res) => {
+    sendMail(req.body);
     res.render('login');
 });
 

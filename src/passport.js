@@ -17,17 +17,31 @@ const connectMongo = ( async () => {
     };
 
 
-    const saveUser = async (username, password) => {
-        await mongo.db("ecommerce").collection("usuarios").insertOne({username, password});
+    const saveUser = async (nuevoUsuario) => {
+        await mongo.db("ecommerce").collection("usuarios").insertOne({
+            username: nuevoUsuario[0].username, 
+            password: nuevoUsuario[0].password, 
+            name: nuevoUsuario[0].name,
+            address: nuevoUsuario[0].address,
+            age: nuevoUsuario[0].age,
+            phone: nuevoUsuario[0].phone
+        });
     };
 
 
-    passport.use('signup', new LocalStrategy( async (username, password, callback) => {
+    passport.use('signup', new LocalStrategy({passReqToCallback: true},  async (req, username, password, callback) => {
         const user = await findUser(username);
         if (user.length !== 0) return callback(null, false, { message: 'El usuario ya está registrado'});
         const passwordBcrypt = bcrypt.hashSync(password, bcrypt.genSaltSync(10));
-        saveUser(username, passwordBcrypt);
-        const nuevoUsuario = [{ username, password: passwordBcrypt }];
+        const nuevoUsuario = [{ 
+            name: req.body.name,
+            username, 
+            password: passwordBcrypt,
+            address: req.body.address,
+            age: req.body.age,
+            phone: req.body.phone
+        }];
+        saveUser(nuevoUsuario);
         callback(null, nuevoUsuario);
     }));
 
