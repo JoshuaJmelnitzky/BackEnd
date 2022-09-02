@@ -2,7 +2,7 @@ const express = require("express");
 const {engine} = require("express-handlebars");
 const productosRutes = require('./Routes/productos/productos');
 const randomRoutes = require('./Routes/numberRandom/numberRandom');
-const Contenedor = require('./contenedor');
+const ContenedorNuevo = require('./Routes/chat/chat');
 const {faker} = require('@faker-js/faker');
 const session = require('express-session');
 const MongoStore = require('connect-mongo');
@@ -14,9 +14,8 @@ const passport = require('./src/passport');
 const cluster = require('cluster');
 const os = require('os');
 
+let chat = new ContenedorNuevo();
 
-let producto = new Contenedor("Productos");
-let chat = new Contenedor("mensajes");
 
 const app = express();
 const numCpu = os.cpus().length;
@@ -168,8 +167,6 @@ const io = require("socket.io")(server);
 io.on("connection", (socket) =>{
     console.log("Cliente conectado");
 
-    // Previous messages
-   
     chat.normalize().then((resp) => {
         socket.emit('mensaje', resp);
     });
@@ -181,6 +178,7 @@ io.on("connection", (socket) =>{
             console.log("Mensaje añadido");
         
             chat.normalize().then((resp) => {
+                //print(resp)
                 socket.emit('mensaje', resp);
             });
         });  
@@ -198,6 +196,7 @@ const parse = yargs(arg).default({
     m: 'mode'
 }).argv;
 const {port, mode} = parse;
+
 
 // Modo cluster o fork 
 if(mode === 'cluster'){

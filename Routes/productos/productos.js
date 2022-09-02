@@ -1,8 +1,5 @@
 const express = require('express');
-require('dotenv').config();
-const Contenedor = require('../../contenedor');
 const Producto = require('../../models/products');
-let producto = new Contenedor("productos");
 
 const { Router } = express;
  
@@ -30,18 +27,6 @@ router.post('/', (req, res) => {
 });
 
 
-router.put('/:id', (req, res) => {
-
-    producto.updateById(req.params.id, req.body)    
-        .then(() => res.send("Producto actualizado"))
-});
-
-
-router.delete('/:id', (req, res) => {
-
-    producto.deleteById(req.params.id)
-        .then((resp) => res.send("Producto eliminado"))
-});
 
 
 
