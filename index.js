@@ -1,6 +1,6 @@
 const express = require("express");
 const {engine} = require("express-handlebars");
-const productosRutes = require('./Routes/productos/productos');
+const productosRutes = require('./modules/products/productRouter');
 const randomRoutes = require('./Routes/numberRandom/numberRandom');
 const ContenedorNuevo = require('./Routes/chat/chat');
 const {faker} = require('@faker-js/faker');
@@ -104,7 +104,7 @@ app.get("/signup", rechazaAutenticado, (req,res)=> {
 
 app.post('/signup', uploader.single('thumbnail'), passport.authenticate('signup', {failureRedirect: '/failsignup', failureMessage: true}), (req, res) => {
     sendMail(req.body);
-    res.render('login');
+    res.render('logIn');
 });
 
 
