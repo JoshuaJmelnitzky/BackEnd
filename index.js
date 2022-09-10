@@ -1,6 +1,7 @@
 const express = require("express");
 const {engine} = require("express-handlebars");
 const productosRutes = require('./modules/products/productRouter');
+const userRoutes = require('./modules/user/userRoutes');
 const randomRoutes = require('./Routes/numberRandom/numberRandom');
 const ContenedorNuevo = require('./Routes/chat/chat');
 const {faker} = require('@faker-js/faker');
@@ -9,15 +10,13 @@ const MongoStore = require('connect-mongo');
 const mongoose = require('mongoose')
 require("dotenv").config();
 const yargs = require('yargs');
-const multer = require('multer');
 const { MONGO_CONNECTION, MONGO_CONNECTION_ECOMMERCE } = process.env;
 const passport = require('./src/passport');
 const cluster = require('cluster');
 const os = require('os');
-const sendMail = require('./utils/nodemail');
+const {requiereAutenticacion} = require('./src/middlewares');
 
 let chat = new ContenedorNuevo();
-
 
 const app = express();
 const numCpu = os.cpus().length;
@@ -49,37 +48,12 @@ app.use(passport.session());
 
 
 app.use("/productos", productosRutes);
+app.use(userRoutes);
 app.use("/api/randoms", randomRoutes);
 app.use(express.static('public'));
 
 app.set("view engine", "hbs");
 app.set("views", "./handlebars/views");
-
-
-// Guardar avatar usuarios
-const storage = multer.diskStorage({
-    destination: './public/avatars',
-    filename: (req, _ , cb) => {
-        const fileName = req.body.username + ".jpeg";
-        cb(null, fileName)
-    }
-});
-
-const uploader = multer({storage});
-
-
-// Midlewares
-const requiereAutenticacion = (req, res, next) => {
-    if (req.isAuthenticated()) return next();
-    res.render('logIn');
-};
-
-
-const rechazaAutenticado = (req, res, next)=> {
-    if (req.isAuthenticated()) return res.render('index', {name: req.session.usuario});
-    next();
-};
-
 
 app.engine("hbs", engine({
     extname: ".hbs",
@@ -93,51 +67,6 @@ app.engine("hbs", engine({
 app.get('/', requiereAutenticacion, (req, res) => {
     res.render("index", {name: req.session.usuario});
 })  
-
-
-// Rutas de registro de nuevo usuario.
-app.get("/signup", rechazaAutenticado, (req,res)=> {
-    sendMail(req.body);
-    res.render("signup");
-});
-
-
-app.post('/signup', uploader.single('thumbnail'), passport.authenticate('signup', {failureRedirect: '/failsignup', failureMessage: true}), (req, res) => {
-    sendMail(req.body);
-    res.render('logIn');
-});
-
-
-app.get("/failsignup", rechazaAutenticado, (req,res)=> {
-    res.render("failedSignUp");
-});
-
-
-// Rutas de inicio de sesión de usuario ya registrado
-app.get('/login', rechazaAutenticado, (req, res) => {
-    res.render("logIn");
-});
-
-
-app.post("/login", passport.authenticate('login', {failureRedirect: '/faillogin', failureMessage: true}), (req,res)=> {
-    req.session.usuario = req.body.username;
-    res.redirect('./');
-})
-
-
-app.get("/faillogin", rechazaAutenticado, (req,res)=> {
-    res.render("failedLogIn");
-});
-
-
-// Cerrar sesión
-app.get('/logout', requiereAutenticacion, (req, res) => {
-    const user = req.session.usuario;
-    req.session.destroy((err) => {
-        console.log(err);
-        res.render('logOut', {name: user});
-    });
-});
 
 
 // Random data

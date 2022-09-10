@@ -1,3 +1,4 @@
+require("dotenv").config();
 const nodemailer = require('nodemailer');
 const {createTransport} = nodemailer;
 const {EMAIL, NODEMAILER_GMAIL} = process.env;
