@@ -11,11 +11,11 @@ const mongoose = require('mongoose')
 require("dotenv").config();
 const yargs = require('yargs');
 const { MONGO_CONNECTION, MONGO_CONNECTION_ECOMMERCE } = process.env;
-const passport = require('./src/middlewares/passport');
+const passport = require('./src/passport');
 const cluster = require('cluster');
 const os = require('os');
 const apiRoutes = require('./src/routes/index');
-const {requiereAutenticacion, rechazaAutenticado} = require('./src/middlewares/middlewares');
+const {requiereAutenticacion, rechazaAutenticado} = require('./src/middlewares');
 
 let chat = new ContenedorNuevo();
 
@@ -150,12 +150,12 @@ if(mode === 'cluster'){
             cluster.fork();
         }
     }else{
-        const serverOn = server.listen(process.env.PORT  || 8089, () => {
+        const serverOn = server.listen(process.env.PORT  || 8080, () => {
             console.log(`Servidor corriendo en puerto ${serverOn.address().port}`);
         });
     }
 }else{
-    const serverOn = server.listen(process.env.PORT  || 8089, () => {
+    const serverOn = server.listen(process.env.PORT  || 8085, () => {
         console.log(`Servidor corriendo en puerto ${serverOn.address().port}`);
     });
 }
