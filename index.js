@@ -1,32 +1,36 @@
+require("dotenv").config();
+var methodOverride = require('method-override')
 const express = require("express");
 const {engine} = require("express-handlebars");
-const productosRutes = require('./src/modules/products/productRouter');
+const productosRutes = require('./src/modules/products/productRoutes');
 const userRoutes = require('./src/modules/user/userRoutes');
+const apiRoutes = require('./src/routes/index');
 const randomRoutes = require('./Routes/numberRandom/numberRandom');
 const ContenedorNuevo = require('./Routes/chat/chat');
 const {faker} = require('@faker-js/faker');
 const session = require('express-session');
 const MongoStore = require('connect-mongo');
 const mongoose = require('mongoose')
-require("dotenv").config();
 const yargs = require('yargs');
 const { MONGO_CONNECTION, MONGO_CONNECTION_ECOMMERCE } = process.env;
-const passport = require('./src/passport');
+const passport = require('./src/middlewares/passport');
 const cluster = require('cluster');
 const os = require('os');
-const apiRoutes = require('./src/routes/index');
-const {requiereAutenticacion, rechazaAutenticado} = require('./src/middlewares');
+const {requiereAutenticacion} = require('./src/middlewares/middlewares');
+
 
 let chat = new ContenedorNuevo();
 
 const app = express();
 const numCpu = os.cpus().length;
+
 mongoose.connect(MONGO_CONNECTION_ECOMMERCE );
 
-app.use('/', apiRoutes);
+app.use(methodOverride('_method'));
 app.use(express.json());
 app.use(express.urlencoded({extended:true}));
 
+app.use('/', apiRoutes);
 app.use(session({
     store: MongoStore.create({
         mongoUrl: MONGO_CONNECTION,
@@ -48,7 +52,6 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 
-app.use("/productos", productosRutes);
 app.use(userRoutes);
 app.use("/api/randoms", randomRoutes);
 app.use(express.static('public'));
@@ -66,7 +69,7 @@ app.engine("hbs", engine({
 
 
 app.get('/', requiereAutenticacion, (req, res) => {
-    res.render("index", {name: req.session.usuario, array: [1,2,3,4,5]});
+    res.render("index", {name: req.session.usuario});
 })  
 
 
@@ -81,26 +84,6 @@ app.get('/api/productos-test', async (req, res) => {
       };
     });
     res.render("productos", {data: productos, random: "random"});
-});
-
-
-// Info del objeto process
-app.get('/info', async (req, res) => {
-    if (arg.length === 0){
-        arg = 'No se ingresaron argumentos';
-    }
-
-    const info = {
-        inputArguments: arg,
-        platform: process.platform,
-        version: process.version,
-        memory: process.memoryUsage().rss + ' bytes',
-        path: process.execPath,
-        id: process.pid,
-        folder: process.cwd(),
-        cpus: numCpu
-    }
-    res.render('info', {info, puerto});
 });
 
 
@@ -155,7 +138,7 @@ if(mode === 'cluster'){
         });
     }
 }else{
-    const serverOn = server.listen(process.env.PORT  || 8085, () => {
+    const serverOn = server.listen(process.env.PORT  || 8080, () => {
         console.log(`Servidor corriendo en puerto ${serverOn.address().port}`);
     });
 }

@@ -1,0 +1,23 @@
+<div class="container bcontent">
+    <h2>Carrito</h2>
+
+    {{#each productsInCart}}
+    <div class="card" style="width: 500px; height:auto">
+        <div class="row no-gutters">
+            <div class="col-sm-5">
+                <img class="card-img" src="{{this.thumbnail}}" alt="Suresh Dasari Card">
+            </div>
+            <div class="col-sm-7">
+                <div class="card-body">
+                    <h5 class="card-title">{{this.title}}</h5>
+                    <p class="card-text">{{this.description}}</p>
+                    <p class="card-text">${{this.price}}</p>
+                     <form action="/carrito/delete/{{this.id}}" method="POST" id="" >
+                        <button type="submit" class="btn btn-primary">Eliminar del carrito</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    {{/each}}
+</div>

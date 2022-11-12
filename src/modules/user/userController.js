@@ -19,7 +19,7 @@ const loginView = async (req, res) => {
 
 const loginUser = async (req, res) => {
     req.session.usuario = req.body.username;
-    res.redirect('./');
+    res.redirect('./productos');
 }
 
 const failLogin = async (req, res) => {

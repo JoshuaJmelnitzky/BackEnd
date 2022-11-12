@@ -1,0 +1,130 @@
+ {{#if admin}}
+    <section class="form-register">
+        <form action="/productos" method="post" id="form">
+            <h4>Nuevo Producto</h4>
+            <input class="controls" type="text" name="title" id="name" placeholder="Nombre">
+            <input class="controls" type="text" name="description" id="description" placeholder="Descripción">
+            <input class="controls" type="uel" name="thumbnail" id="thumbnail" placeholder="URL de la foto">
+            <input class="controls" type="number" step="0.01" name="price" id="price" placeholder="Precio">
+            <input class="controls" type="text" name="category" id="category" placeholder="Categoría">
+            <input class="controls" type="text" name="stock" id="category" placeholder="Stock">
+
+            <button class="botons" id="send">Cargar Producto</button>
+        </form>
+    </section>
+
+<div class="container product__container--marginTop">
+    <div class="row">
+        <div class="col-md-3 clasificacion__background">
+            <div  class="clasificacion__item">
+                <h2 class="clasificacion__titulo clasificacion__border">Categorías</h2>
+                <ul>    
+                    <a href='/category/proccessor'><li>Procesadores</li></a>
+                    <a href='/category/case'><li>Gabinetes</li></a>
+                    <a href='/category/motherboard'><li>Motherboard</li></a>
+                    <a href='/category/gpu'><li>Placas de video</li></a>
+                    <a href='/category/ram'><li>Memorias RAM</li></a>
+                    <a href='/category/fuentes'><li>Fuentes</li></a>
+                    <a href='/category/ssd'><li>Almacenamiento</li></a>
+                    <a href='/category/waterColling'><li>Disipador</li></a>
+                </ul>
+            </div>
+        </div>
+
+
+        <div class="offset-md-3 col-md-9 products--grid">
+        
+                {{#if products}}
+                    {{#each products}}
+                        <div class="card" style="width: 18rem;">
+                            <img src={{this.thumbnail}} class="card-img-top" alt="...">
+                            <div class="card-body">
+                                <h5 class="card-title">{{this.title}}</h5>
+                                <p class="card-text">{{this.description}}</p>
+                                <p class="card-text">${{this.price}}</p>
+                                <p class="card-text">Categoria: {{this.category}}</p>
+                    
+                                <div class="products-forms">
+
+                                    <form method="GET" action="/productos/update/{{this.id}}" id="">
+                                        <button class="btn btn-primary">Modificar</button>
+                                    </form>
+
+                                    <form method="POST" action="/productos/{{this.id}}?_method=DELETE">
+                                        <button class="btn btn-danger" value="DELETE" name="_method">Eliminar</button>
+                                    </form>       
+
+                                </div>                                                                         
+                            </div>
+                        </div>
+                    {{/each}}
+
+                    {{else}}
+                    <div class="empty-products">
+                        <img src="https://cdn-icons-png.flaticon.com/512/43/43533.png" alt="">
+                        <h3>No hay productos cargados todavía</h3>
+                    </div>
+                {{/if}}
+          
+        </div>
+    </div>
+</div>
+
+
+{{else}}
+
+
+<div class="container product__container--marginTop">
+    <div class="row">
+        <div class="col-md-3 clasificacion__background">
+            <div  class="clasificacion__item">
+                <h2 class="clasificacion__titulo clasificacion__border">Categorías</h2>
+                <ul>    
+                    <a href='/category/proccessor'><li>Procesadores</li></a>
+                    <a href='/category/case'><li>Gabinetes</li></a>
+                    <a href='/category/motherboard'><li>Motherboard</li></a>
+                    <a href='/category/gpu'><li>Placas de video</li></a>
+                    <a href='/category/ram'><li>Memorias RAM</li></a>
+                    <a href='/category/fuentes'><li>Fuentes</li></a>
+                    <a href='/category/ssd'><li>Almacenamiento</li></a>
+                    <a href='/category/waterColling'><li>Disipador</li></a>
+                </ul>
+
+                <form action="/carrito/{{idCart}}" method="GET" id="" >
+                    <button type="submit" class="btn btn-primary">Carrito</button>
+                </form>
+            </div>
+        </div>
+
+
+        <div class="offset-md-3 col-md-9 products--grid">
+        
+                {{#if products}}
+                    {{#each products}}
+                        <div class="card" style="width: 18rem;">
+                            <img src={{this.thumbnail}} class="card-img-top" alt="...">
+                            <div class="card-body">
+                                <h5 class="card-title">{{this.title}}</h5>
+                                <p class="card-text">{{this.description}}</p>
+                                <p class="card-text">${{this.price}}</p>
+                                <p class="card-text">Categoria: {{this.category}}</p>
+                    
+                                <div class="products-forms">
+
+                                    <form method="POST" action="/carrito/{{this.id}}" id="">
+                                        <button class="btn btn-success">Añadir al carrito</button>
+                                    </form>
+
+                                </div>                                                                         
+                            </div>
+                        </div>
+                    {{/each}}
+
+                    {{else}}
+                    <div class="empty-products">
+                        <img src="https://cdn-icons-png.flaticon.com/512/43/43533.png" alt="">
+                        <h3>No hay productos cargados todavía</h3>
+                    </div>
+                {{/if}}
+        
+{{/if}}

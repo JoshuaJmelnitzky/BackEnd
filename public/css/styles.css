@@ -59,7 +59,7 @@ main{
 }
 
 
-body form{
+.form-login, .signup-login, .index-form, .chat-form{
     background: white;
     min-height: 30vw;
     width: 30%;
@@ -109,6 +109,8 @@ button{
     padding: 14px 20px;
     border: none;
     cursor: pointer;
+
+    border-radius: 10%;
 }
 
 
@@ -169,6 +171,10 @@ button:hover {
 
     }
 }
+
+
+
+
 
 
 .navbar__button--margin{
@@ -255,7 +261,13 @@ footer{
     padding: 5px;
     text-align: center;
     margin: 5px;
+    height: 500px;
 }
+
+.card img{
+    min-height: 250px;
+}
+
 
 
 .clasificacion__background{
@@ -334,3 +346,20 @@ footer{
 .userName{
     margin-left: 20px;
 }
+
+.empty-products{
+    margin:auto;
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+}
+
+.empty-products h3{
+    margin-top: 20px;
+    font-weight: bold;
+}
+
+.empty-products img{
+    size: 30px;
+}
+
