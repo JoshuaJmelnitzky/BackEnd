@@ -1,8 +1,8 @@
 const {registerView, registerNewUser, failRegister, loginView, loginUser, failLogin, logout} = require('./userController');
-const {requiereAutenticacion, rechazaAutenticado} = require('../../src/middlewares'); 
+const {requiereAutenticacion, rechazaAutenticado} = require('../../middlewares/middlewares'); 
 const router = require('express').Router();
 const multer = require('multer');
-const passport = require('../../src/passport');
+const passport = require('../../middlewares/passport');
 
 // Guardar avatar usuarios
 const storage = multer.diskStorage({

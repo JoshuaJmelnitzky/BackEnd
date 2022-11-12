@@ -1,4 +1,4 @@
-const Chat = require('../../models/chat');
+const Chat = require('../../src/models/chat');
 const norm = require ("normalizr");
 const normalizrSchema = require('../../utils/normalize')
 

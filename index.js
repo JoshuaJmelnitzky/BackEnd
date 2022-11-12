@@ -1,7 +1,7 @@
 const express = require("express");
 const {engine} = require("express-handlebars");
-const productosRutes = require('./modules/products/productRouter');
-const userRoutes = require('./modules/user/userRoutes');
+const productosRutes = require('./src/modules/products/productRouter');
+const userRoutes = require('./src/modules/user/userRoutes');
 const randomRoutes = require('./Routes/numberRandom/numberRandom');
 const ContenedorNuevo = require('./Routes/chat/chat');
 const {faker} = require('@faker-js/faker');
@@ -11,18 +11,19 @@ const mongoose = require('mongoose')
 require("dotenv").config();
 const yargs = require('yargs');
 const { MONGO_CONNECTION, MONGO_CONNECTION_ECOMMERCE } = process.env;
-const passport = require('./src/passport');
+const passport = require('./src/middlewares/passport');
 const cluster = require('cluster');
 const os = require('os');
-const {requiereAutenticacion} = require('./src/middlewares');
+const apiRoutes = require('./src/routes/index');
+const {requiereAutenticacion, rechazaAutenticado} = require('./src/middlewares/middlewares');
 
 let chat = new ContenedorNuevo();
 
 const app = express();
 const numCpu = os.cpus().length;
-
 mongoose.connect(MONGO_CONNECTION_ECOMMERCE );
 
+app.use('/', apiRoutes);
 app.use(express.json());
 app.use(express.urlencoded({extended:true}));
 
@@ -53,7 +54,7 @@ app.use("/api/randoms", randomRoutes);
 app.use(express.static('public'));
 
 app.set("view engine", "hbs");
-app.set("views", "./handlebars/views");
+app.set("views", "./views");
 
 app.engine("hbs", engine({
     extname: ".hbs",
@@ -65,7 +66,7 @@ app.engine("hbs", engine({
 
 
 app.get('/', requiereAutenticacion, (req, res) => {
-    res.render("index", {name: req.session.usuario});
+    res.render("index", {name: req.session.usuario, array: [1,2,3,4,5]});
 })  
 
 
@@ -149,12 +150,12 @@ if(mode === 'cluster'){
             cluster.fork();
         }
     }else{
-        const serverOn = server.listen(process.env.PORT  || 8080, () => {
+        const serverOn = server.listen(process.env.PORT  || 8089, () => {
             console.log(`Servidor corriendo en puerto ${serverOn.address().port}`);
         });
     }
 }else{
-    const serverOn = server.listen(process.env.PORT  || 8080, () => {
+    const serverOn = server.listen(process.env.PORT  || 8089, () => {
         console.log(`Servidor corriendo en puerto ${serverOn.address().port}`);
     });
 }

@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Registro</title>
+    </head>
+    <body>
+        <main>
+            <h1>Registro de usuario</h1>
+
+            <form action="/signup" method="post" enctype="multipart/form-data" >
+                <div class="form-container">
+                    
+                    <label for="name">Nombre*</label>
+                    <input type="text" name="name" required>
+
+                    <label for="name">Email*</label>
+                    <input type="email" name="username" required>
+
+                    <label for="name">Contraseña*</label>
+                    <input type="text" name="password" required>
+
+                    <label for="name">Dirección*</label>
+                    <input type="text" name="address" required>
+
+                    <label for="name">Edad*</label>
+                    <input type="number" name="age" min="0" required>
+
+                    <label for="name">Número de teléfono*</label>
+                    <input type="tel" name="phone" required>
+
+                    <label for="thumbnail">Avatar*</label>
+                    <input type="file" name="thumbnail" id="thumbnail" required>
+                            
+                    <div class="button-container"> 
+                        <a href="/login"><button type="button">Login</button></a>
+                        <button type="submit">Enviar</button>
+                    </div>    
+                    
+                </div> 
+            </form>
+        </main>
+    </body>
+</html>

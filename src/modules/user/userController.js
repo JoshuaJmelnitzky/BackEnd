@@ -1,4 +1,4 @@
-const sendMail = require('../../utils/nodemail');
+const sendMail = require('../../../utils/nodemail');
 
 const registerView = async (_, res) => {
     res.render("signup");

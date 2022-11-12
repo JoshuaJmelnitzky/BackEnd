@@ -109,8 +109,6 @@ button{
     padding: 14px 20px;
     border: none;
     cursor: pointer;
-    margin-top: 30px;
-    border-radius: 10%;
 }
 
 
@@ -170,4 +168,169 @@ button:hover {
         min-width: 30vw;
 
     }
+}
+
+
+.navbar__button--margin{
+    margin: 0 20px;
+}
+
+main{
+    min-height: calc(100vh - 200px);
+}
+
+footer{
+    height: 200px;
+    margin-top: 30px;
+}
+
+
+.form-register {
+    width: 400px;
+    background: #24303c;
+    padding: 30px;
+    margin: auto;
+    margin-top: 100px;
+    border-radius: 4px;
+    font-family: 'calibri';
+    color: white;
+    box-shadow: 7px 13px 37px #000;
+}
+  
+.form-register h4 {
+    font-size: 22px;
+    margin-bottom: 20px;
+}
+  
+.controls {
+    width: 100%;
+    background: #24303c;
+    padding: 10px;
+    border-radius: 4px;
+    margin-bottom: 16px;
+    border: 1px solid #1f53c5;
+    font-family: 'calibri';
+    font-size: 18px;
+    color: white;
+}
+  
+.form-register p {
+    height: 40px;
+    text-align: center;
+    font-size: 18px;
+    line-height: 40px;
+}
+
+.form-register a {
+    color: white;
+    text-decoration: none;
+}
+
+.form-register a:hover {
+    color: white;
+    text-decoration: underline;
+}
+
+.form-register .botons {
+    width: 100%;
+    background: #1f53c5;
+    border: none;
+    padding: 12px;
+    color: white;
+    margin: 16px 0;
+    font-size: 16px;
+}  
+
+.product__container--marginTop{
+    margin-top: 30px;
+}
+
+.products--grid{
+    margin: 0;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.card{
+    padding: 5px;
+    text-align: center;
+    margin: 5px;
+}
+
+
+.clasificacion__background{
+    background-color: #F4F4F4;
+    padding: 50px;
+    min-height: calc(100vh);
+}
+
+.clasificacion__titulo{
+    font-family: 'Montserrat', sans-serif;
+    font-weight: bold;
+    font-size: 30px;
+}
+
+.clasificacion__item{
+    font-size: 15px;
+    font-family: 'Montserrat', sans-serif;
+}
+
+.clasificacion__item ul a li{
+    text-decoration: none;
+}
+
+.clasificacion__border{
+    border-bottom: 1px solid rgba(0,0,0,.2);
+    width: 95%;
+    padding-bottom: 10px;
+    margin-bottom: 20px;
+    margin-top: 30px;
+}
+
+.clasificacion__item a{
+    color: black;
+    text-decoration: none;
+}
+
+.clasificacion__item a:hover{
+    font-weight: bold;
+}
+
+.products-forms{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+}
+
+.button-container{
+    width: 100%;
+    display: flex;
+    justify-content: space-around;
+}
+
+
+.button-container button{
+    background-color: #5961F9;
+    width: 120px;
+    color: white;
+    padding: 14px 20px;
+    border: none;
+    cursor: pointer;
+    margin-top: 30px;
+    border-radius: 10%;
+}
+
+
+.button-container button a{
+    text-decoration: none;
+    color: white;
+}
+
+
+.button-container button:hover {
+    opacity: 0.8;
+}
+
+.userName{
+    margin-left: 20px;
 }
