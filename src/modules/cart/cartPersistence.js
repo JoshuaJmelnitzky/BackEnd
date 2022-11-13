@@ -10,7 +10,8 @@ class CartDaoMongoDb {
   }
 
   async saveCart(cart) {
-    return this.clientMongoDb.save(cart);
+    const dto = await cart;
+    return this.clientMongoDb.save(dto);
   }
 
   async getById(id) {

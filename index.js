@@ -2,7 +2,6 @@ require("dotenv").config();
 var methodOverride = require('method-override')
 const express = require("express");
 const {engine} = require("express-handlebars");
-const productosRutes = require('./src/modules/products/productRoutes');
 const userRoutes = require('./src/modules/user/userRoutes');
 const apiRoutes = require('./src/routes/index');
 const randomRoutes = require('./Routes/numberRandom/numberRandom');
@@ -30,7 +29,6 @@ app.use(methodOverride('_method'));
 app.use(express.json());
 app.use(express.urlencoded({extended:true}));
 
-app.use('/', apiRoutes);
 app.use(session({
     store: MongoStore.create({
         mongoUrl: MONGO_CONNECTION,
@@ -51,7 +49,7 @@ app.use(session({
 app.use(passport.initialize());
 app.use(passport.session());
 
-
+app.use('/', apiRoutes);
 app.use(userRoutes);
 app.use("/api/randoms", randomRoutes);
 app.use(express.static('public'));
@@ -69,7 +67,7 @@ app.engine("hbs", engine({
 
 
 app.get('/', requiereAutenticacion, (req, res) => {
-    res.render("index", {name: req.session.usuario});
+    res.render("index", {name: req.session.usuario, idCart: req.session.cart});
 })  
 
 

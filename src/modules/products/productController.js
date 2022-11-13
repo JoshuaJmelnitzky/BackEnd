@@ -5,9 +5,9 @@ const productService = new ProductService();
 
 const getProducts = async (req,res) => {
     const products = await productService.getListProducts();
-    const user = req.user;
+    const user = req.session.usuario;
     const admin = process.env.ADMIN;
-    const idCart = req.cart;
+    const idCart = req.session.cart;
     res.render('products', {products, user, admin, idCart, name:user});
 }
 

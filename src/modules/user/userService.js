@@ -7,8 +7,7 @@ class UserService {
   
 
   async findUser(username) {
-    const userFinded = await this.dao.getUserById(username);
-    return userFinded;
+    return await this.dao.getUserById(username);
   }
     
 };

@@ -16,9 +16,9 @@ const storage = multer.diskStorage({
 const uploader = multer({storage});
 
 // Rutas de registro de nuevo usuario.
-router.get("/signup", registerView);
+router.get("/signup", rechazaAutenticado, registerView);
 
-router.post('/signup', uploader.single('thumbnail'), passport.authenticate('signup', {failureRedirect: '/failsignup', failureMessage: true}), registerNewUser);
+router.post('/signup', rechazaAutenticado, uploader.single('thumbnail'), passport.authenticate('signup', {failureRedirect: '/failsignup', failureMessage: true}), registerNewUser);
 
 router.get("/failsignup", failRegister);
 
@@ -26,7 +26,7 @@ router.get("/failsignup", failRegister);
 // Rutas de inicio de sesión de usuario ya registrado.
 router.get('/login', rechazaAutenticado, loginView);
 
-router.post("/login", passport.authenticate('login', {failureRedirect: '/faillogin', failureMessage: true}), loginUser);
+router.post("/login", rechazaAutenticado, passport.authenticate('login', {failureRedirect: '/faillogin', failureMessage: true}), loginUser);
 
 router.get("/faillogin", rechazaAutenticado, failLogin);
 

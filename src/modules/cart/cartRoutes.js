@@ -11,6 +11,6 @@ router.get('/:id', getCartById);
 router.post('/:id', addProductToCart);
 
 //Para eliminar del carrito un producto por su id
-router.post('/delete/:id', deleteProductFromCart);
+router.delete('/:id', deleteProductFromCart);
 
 module.exports = router;

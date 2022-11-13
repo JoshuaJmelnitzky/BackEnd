@@ -73,7 +73,6 @@
 
 {{else}}
 
-
 <div class="container product__container--marginTop">
     <div class="row">
         <div class="col-md-3 clasificacion__background">
@@ -89,10 +88,6 @@
                     <a href='/category/ssd'><li>Almacenamiento</li></a>
                     <a href='/category/waterColling'><li>Disipador</li></a>
                 </ul>
-
-                <form action="/carrito/{{idCart}}" method="GET" id="" >
-                    <button type="submit" class="btn btn-primary">Carrito</button>
-                </form>
             </div>
         </div>
 
@@ -110,11 +105,9 @@
                                 <p class="card-text">Categoria: {{this.category}}</p>
                     
                                 <div class="products-forms">
-
-                                    <form method="POST" action="/carrito/{{this.id}}" id="">
+                                    <form method="POST" action="/carrito/{{id}}">
                                         <button class="btn btn-success">Añadir al carrito</button>
-                                    </form>
-
+                                    </form>                                
                                 </div>                                                                         
                             </div>
                         </div>

@@ -49,7 +49,7 @@ const addProductToCart = async (req, res) => {
 
 //Para eliminar del carrito el producto (id)
 const deleteProductFromCart = async (req, res) => {
-  const idCart = req.cart;
+  const idCart = req.session.cart;
   const idProduct = parseInt(req.params.id);
   let cart = await cartService.getCart(idCart);
   const productsInCart = cart.products.filter((elem) => elem.id !== idProduct);
