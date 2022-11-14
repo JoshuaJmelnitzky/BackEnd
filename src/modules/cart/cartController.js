@@ -1,10 +1,10 @@
 const { CartService } = require(`./cartService`);
 const { ProductService } = require('../products/productService');
-// const { OrderService } = require('../orders/serviceOrders');
+
 
 const cartService = new CartService();
 const productService = new ProductService();
-// const orderService = new OrderService();
+
 
 const getCartById = async (req, res) => {
   let idCart = 0;
@@ -27,7 +27,8 @@ const addProductToCart = async (req, res) => {
   const productToAdd = await productService.getProductById(idProduct);
   if (!productToAdd) res.status(404).send({error: "producto no encontrado"});
   else {
-    const idCart = 1;
+    const idCart = req.session.cart;
+    console.log(idCart)
     const cartFinded = await cartService.getCart(idCart);
     if (!cartFinded) res.send('error: no existe ese carrito');
     else {
@@ -59,19 +60,5 @@ const deleteProductFromCart = async (req, res) => {
   res.render('cart', {user, newCart, productsInCart, idCart});
 };
 
-//Al finalizar la compra 
-// const checkout = async (req, res) => {
-//   const idCart = req.cart;
-//   const cartFinded = await cartService.getCart(idCart);
-//   if (!cartFinded) res.send('error: no existe ese carrito');
-//   else {
-//     const productsInCart = cartFinded.products;
-//     const user = req.user;
-//     const orderNumber = await orderService.createOrder(user.username, cartFinded.products);
-//     const totalOrder = productsInCart.reduce((ac, prod) => ac += (prod.price * prod.cant), 0);
-//     const dataCheckout = orderService.sendPurchaseNotices(user, orderNumber, productsInCart, totalOrder);
-//     res.render('cart', {user, productsInCart, orderNumber, totalOrder});
-//   }
-// };
 
 module.exports = { getCartById, addProductToCart, deleteProductFromCart };

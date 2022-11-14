@@ -1,8 +1,6 @@
 const router = require('express').Router();
 const { getCartById, addProductToCart, deleteProductFromCart, checkout } = require('./cartController');
 
-//Al finalizar la compra 
-// router.post('/compra', checkout);
 
 //Para listar todos los productos de un carrito según su id
 router.get('/:id', getCartById);

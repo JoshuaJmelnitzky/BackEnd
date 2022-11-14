@@ -1,23 +1,40 @@
 <div class="container bcontent">
     <h2>Carrito</h2>
 
-    {{#each productsInCart}}
-    <div class="card" style="width: 500px; height:auto">
-        <div class="row no-gutters">
-            <div class="col-sm-5">
-                <img class="card-img" src="{{this.thumbnail}}" alt="Suresh Dasari Card">
-            </div>
-            <div class="col-sm-7">
-                <div class="card-body">
-                    <h5 class="card-title">{{this.title}}</h5>
-                    <p class="card-text">{{this.description}}</p>
-                    <p class="card-text">${{this.price}}</p>
-                     <form action="/carrito/{{this.id}}?_method=DELETE" method="POST" id="" >
-                        <button type="submit" class="btn btn-danger" value="DELETE" name="_method">Eliminar del carrito</button>
-                    </form>
+    {{#if productsInCart}}
+        {{#each productsInCart}}
+        <div class="card" style="width: 500px; height:auto">
+            <div class="row no-gutters">
+                <div class="col-sm-5">
+                    <img class="card-img" src="{{this.thumbnail}}" alt="Suresh Dasari Card">
+                </div>
+                <div class="col-sm-7">
+                    <div class="card-body">
+                        <h5 class="card-title">{{this.title}}</h5>
+                        <p class="card-text">{{this.description}}</p>
+                        <p class="card-text">${{this.price}}</p>
+                        <form action="/carrito/{{this.id}}?_method=DELETE" method="POST" id="" >
+                            <button type="submit" class="btn btn-danger" value="DELETE" name="_method">Eliminar del carrito</button>
+                        </form>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
-    {{/each}}
+        {{/each}}
+        <div class="cart-buttons">
+            <a href="/productos"><button class="btn btn-primary">Ir a productos</button></a>
+            <form action="/carrito/checkout" method="post">
+                <button class="btn btn-success">Ir a checkout</button>
+            </form>
+         
+        </div>
+       
+        {{else}}
+        <div class="cart-empty">
+            <img src="https://cdn-icons-png.flaticon.com/512/3394/3394009.png" class="img-fluid" alt="">
+            <h2>No hay productos en el carrito</h2>
+        </div>
+        <a href="/productos"><button>Ir a productos</button></a>
+    {{/if}}
+
 </div>

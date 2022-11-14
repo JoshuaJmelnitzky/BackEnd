@@ -363,3 +363,23 @@ footer{
     size: 30px;
 }
 
+.cart-empty{
+    text-align: center;
+    height: 250px;
+    width: 60%;
+    padding-top: 20px;
+    background: white;
+    box-shadow: 0 0 15px #ddd;
+}
+
+
+.cart-empty img{
+    height: 70%;
+}
+
+.cart-buttons{
+    margin-top: 25px;
+    width: 40%;
+    display: flex;
+    justify-content: space-around;
+}
