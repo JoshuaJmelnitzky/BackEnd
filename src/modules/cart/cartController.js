@@ -9,7 +9,7 @@ const orderService = new OrderService();
 const getCartById = async (req, res) => {
   let idCart = 0;
   if (req.params.id) idCart = parseInt(req.params.id);
-  else idCart = req.cart;
+  else idCart = req.session.cart;
   if (isNaN(idCart)) return res.status(400).send({error: "el parámetro no es un número"});
   const cart = await cartService.getCart(idCart);
   if (!cart) res.status(404).send({error: "carrito no encontrado"});
@@ -20,7 +20,6 @@ const getCartById = async (req, res) => {
   }
 };
 
-//Para agregar un producto al carrito por id del producto (el id del carrito es req.cart)
 const addProductToCart = async (req, res) => {
   const idProduct = parseInt(req.params.id);
   if (isNaN(idProduct)) return res.status(400).send({error: "el parámetro no es un número"});
@@ -28,7 +27,6 @@ const addProductToCart = async (req, res) => {
   if (!productToAdd) res.status(404).send({error: "producto no encontrado"});
   else {
     const idCart = req.session.cart;
-    console.log(idCart)
     const cartFinded = await cartService.getCart(idCart);
     if (!cartFinded) res.send('error: no existe ese carrito');
     else {
@@ -48,7 +46,6 @@ const addProductToCart = async (req, res) => {
   }
 };
 
-//Para eliminar del carrito el producto (id)
 const deleteProductFromCart = async (req, res) => {
   const idCart = req.session.cart;
   const idProduct = parseInt(req.params.id);
@@ -68,9 +65,9 @@ const checkout = async (req, res) => {
   else {
     const productsInCart = cartFinded.products;
     const name = req.session.usuario;
-    const orderNumber = await orderService.createOrder(user, cartFinded.products);
-    const totalOrder = productsInCart.reduce((ac, prod) => ac += (prod.price * prod.cant), 0);
-    res.render('cart', {name, productsInCart, orderNumber, totalOrder});
+    const orderNumber = await orderService.createOrder(name, cartFinded.products);
+    const totalOrder = productsInCart.reduce((ac, prod) => ac += (prod.price), 0);
+    res.render('ordenes', {name, productsInCart, orderNumber, totalOrder});
   }
 };
 

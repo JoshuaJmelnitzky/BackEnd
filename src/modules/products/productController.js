@@ -11,6 +11,15 @@ const getProducts = async (req,res) => {
     res.render('products', {products, user, admin, idCart, name:user});
 }
 
+const getProductsById = async (req, res) => {
+    const idProd = req.params.id;
+    const products = await productService.getProductById(idProd);
+    const user = req.session.usuario;
+    const admin = process.env.ADMIN;
+    const idCart = req.session.cart;
+    res.render('products', {products, user, admin, idCart, name:user});
+}
+
 const addProduct = async (req,res) => {
     const newProduct = req.body;
     const newId = await productService.addProductToList(newProduct);
@@ -47,5 +56,6 @@ module.exports = {
     addProduct,
     deleteProductById,
     updateProduct,
-    getUpdateView
+    getUpdateView,
+    getProductsById
 }

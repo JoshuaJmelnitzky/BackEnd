@@ -383,3 +383,50 @@ footer{
     display: flex;
     justify-content: space-around;
 }
+
+
+
+.card-order {
+    width: 500px;
+    min-height: 100px;
+    padding: 20px;
+    border-radius: 3px;
+    background-color: white;
+    box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.2);
+    position: relative;
+    overflow: hidden;
+    margin-top: 30px;
+}
+
+
+.firstinfo {
+    flex-direction: row;
+    z-index: 2;
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.firstinfo img {
+    border-radius: 50%;
+    width: 120px;
+    height: 120px;
+}
+.firstinfo .profileinfo {
+    padding: 0px 20px;
+}
+.firstinfo .profileinfo h1 {
+    font-size: 1.8em;
+}
+.firstinfo .profileinfo h3 {
+    font-size: 1.2em;
+    color: #009688;
+    font-style: italic;
+}
+.firstinfo .profileinfo p.bio {
+    padding: 10px 0px;
+    color: #5a5a5a;
+    line-height: 1.2;
+    font-style: initial;
+}
+

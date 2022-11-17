@@ -10,19 +10,16 @@ class OrderDaoMongoDb {
   }
 
   async saveOrder(order) {
-    const dto = await order.toDTO();
-    return this.clientMongoDb.save(dto);
+    return this.clientMongoDb.save(order);
   }
 
   async getOrders() {
-    const orders = await this.clientMongoDb.getAll();
-    return orders;
+    return await this.clientMongoDb.getAll();
   }
 
   async getOrderById(id) {
     const dto = await this.clientMongoDb.getById(id);
     if (!dto) return null
-    console.log(dto)
     return dto[0];
   }
 

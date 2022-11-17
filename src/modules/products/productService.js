@@ -1,6 +1,5 @@
 const { ProductDaoMongoDb } = require('./productPersistence');
-// const { Product } = require("./product");
- 
+
 class ProductService {
   constructor() {
     this.dao = new ProductDaoMongoDb();
@@ -13,8 +12,6 @@ class ProductService {
 
   async addProductToList (newProduct) {
     newProduct.timestamp = Date.now();
-    // const { title, description, thumbnail, price, category, timestamp } = newProduct;
-    // const newProd = new Product(title, description, thumbnail, price, category, timestamp);
     const newP = await this.dao.saveProduct(newProduct);
     return newP;
   }
@@ -22,8 +19,7 @@ class ProductService {
   
   async getProductById (id) {
     const productFinded = await this.dao.getProductById(id);
-    if (!productFinded) return null;
-    return productFinded;
+    return productFinded? productFinded: null;
   }
 
   async deleteProduct (id) {

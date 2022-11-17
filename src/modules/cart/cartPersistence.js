@@ -23,9 +23,10 @@ class CartDaoMongoDb {
     return this.clientMongoDb.replaceById(id, cart);
   }
 
-  /* async deleteById(id) { */
-  /*   return await this.clientMongoDb.deleteById(id); */
-  /* } */
+  async deleteById(id){
+    return await this.clientMongoDb.deleteById(id); 
+  } 
+  
 }
 
 module.exports = { CartDaoMongoDb };

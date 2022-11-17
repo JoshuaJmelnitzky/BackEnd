@@ -24,6 +24,10 @@ class CartService {
     const updatedCart = await this.dao.updateById(id, newData);
     return updatedCart;
   }
+
+  async deleteCart(id){
+    await this.dao.deleteById(id);
+  }
 }  
 
 module.exports = { CartService };

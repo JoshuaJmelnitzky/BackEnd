@@ -1,0 +1,20 @@
+<h1 class="title-orders">Orden Genarada con el N°: {{this.orderNumber}}</h1>
+
+<div class="content">
+    {{#each productsInCart}}
+    <div class="card-order">
+        <div class="firstinfo">
+            <img src={{this.thumbnail}} alt="">
+            <div class="profileinfo">
+                <h1>{{this.title}}</h1>
+                <p class="bio">{{this.description}}</p>
+                <h3>${{this.price}}</h3>
+            </div>
+        </div>
+    </div>
+    {{/each}}
+</div>
+
+<h3 style="margin-top: 25px">El total de la compra es ${{this.totalOrder}}</h3>
+
+<button class="btn btn-success"><a href="/ ">Volver al inicio</a></button>
