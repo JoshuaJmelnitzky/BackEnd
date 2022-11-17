@@ -1,10 +1,10 @@
 const { CartService } = require(`./cartService`);
 const { ProductService } = require('../products/productService');
-
+const { OrderService } = require('../orders/ordersService')
 
 const cartService = new CartService();
 const productService = new ProductService();
-
+const orderService = new OrderService();
 
 const getCartById = async (req, res) => {
   let idCart = 0;
@@ -14,9 +14,9 @@ const getCartById = async (req, res) => {
   const cart = await cartService.getCart(idCart);
   if (!cart) res.status(404).send({error: "carrito no encontrado"});
   else {
-    const user = req.user;
+    const name = req.session.usuario;
     const productsInCart = cart.products;
-    res.render('cart', {productsInCart, user, idCart});
+    res.render('cart', {productsInCart, name, idCart});
   }
 };
 
@@ -42,8 +42,8 @@ const addProductToCart = async (req, res) => {
       }
       const cartModified = await cartService.updateCart(idCart, cartFinded);
       const productsInCart = cartModified[0].products;
-      const user = req.user;
-      res.render('cart', {user, cartModified, productsInCart, idCart});
+      const name = req.session.usuario;
+      res.render('cart', {name, cartModified, productsInCart, idCart});
     }
   }
 };
@@ -56,9 +56,22 @@ const deleteProductFromCart = async (req, res) => {
   const productsInCart = cart.products.filter((elem) => elem.id !== idProduct);
   cart.products = productsInCart;
   const newCart = await cartService.updateCart(idCart, cart);
-  const user = req.user;
-  res.render('cart', {user, newCart, productsInCart, idCart});
+  const name = req.session.usuario;
+  res.render('cart', {name, newCart, productsInCart, idCart});
 };
 
 
-module.exports = { getCartById, addProductToCart, deleteProductFromCart };
+const checkout = async (req, res) => {
+  const idCart = req.session.cart;
+  const cartFinded = await cartService.getCart(idCart);
+  if (!cartFinded) res.send('error: no existe ese carrito');
+  else {
+    const productsInCart = cartFinded.products;
+    const name = req.session.usuario;
+    const orderNumber = await orderService.createOrder(user, cartFinded.products);
+    const totalOrder = productsInCart.reduce((ac, prod) => ac += (prod.price * prod.cant), 0);
+    res.render('cart', {name, productsInCart, orderNumber, totalOrder});
+  }
+};
+
+module.exports = { getCartById, addProductToCart, deleteProductFromCart, checkout };
