@@ -1,11 +1,11 @@
 <section class="form-register">
     <form action="/productos/{{this.id}}?_method=PUT" method="POST" id="form">
         <h4>Actualizar Producto</h4>
-        <input class="controls" type="text" name="title" id="name" placeholder="Nombre">
-        <input class="controls" type="text" name="description" id="description" placeholder="Descripción">
-        <input class="controls" type="uel" name="thumbnail" id="thumbnail" placeholder="URL de la foto">
-        <input class="controls" type="number" step="0.01" name="price" id="price" placeholder="Precio">
-        <input class="controls" type="text" name="category" id="category" placeholder="Categoría">
+        <input class="controls" type="text" name="title" id="name" placeholder="Nombre" value='{{this.products.title}}'>
+        <input class="controls" type="text" name="description" id="description" placeholder="Descripción" value='{{this.products.description}}'>
+        <input class="controls" type="uel" name="thumbnail" id="thumbnail" placeholder="URL de la foto" value='{{this.products.thumbnail}}'>
+        <input class="controls" type="number" step="0.01" name="price" id="price" placeholder="Precio" value='{{this.products.price}}'>
+        <input class="controls" type="text" name="category" id="category" placeholder="Categoría" value='{{this.products.category}}'>
 
         <button class="botons" id="send" value="PUT" name="_method">Actualizar Producto</button>
     </form>

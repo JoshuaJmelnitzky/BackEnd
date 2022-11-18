@@ -10,7 +10,7 @@ const registerView = async (_, res) => {
 }
 
 const registerNewUser = async (req, res) => {
-    sendMail(req.body);
+    // sendMail(req.body);
     res.render('logIn');
 }
 
@@ -23,13 +23,13 @@ const loginView = async (req, res) => {
 }
 
 const loginUser = async (req, res) => {
-    const user = req.body.username;
+    const user =  req.body.username;
 
     userService.findUser(user).then((e)=> {
         cartService.createCart(e).then( id => {
             req.session.cart = id;
             req.session.usuario = user;
-            res.redirect('./productos');
+            res.redirect('/productos');
         });
     });
 };

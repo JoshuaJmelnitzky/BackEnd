@@ -26,7 +26,7 @@ router.get("/failsignup", failRegister);
 // Rutas de inicio de sesión de usuario ya registrado.
 router.get('/login', rechazaAutenticado, loginView);
 
-router.post("/login", rechazaAutenticado, passport.authenticate('login', {failureRedirect: '/faillogin', failureMessage: true}), loginUser);
+router.post("/login", passport.authenticate('login', {failureRedirect: '/faillogin', failureMessage: true}), loginUser);
 
 router.get("/faillogin", rechazaAutenticado, failLogin);
 

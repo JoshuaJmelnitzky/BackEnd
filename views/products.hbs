@@ -18,15 +18,10 @@
         <div class="col-md-3 clasificacion__background">
             <div  class="clasificacion__item">
                 <h2 class="clasificacion__titulo clasificacion__border">Categorías</h2>
-                <ul>    
-                    <a href='/category/proccessor'><li>Procesadores</li></a>
-                    <a href='/category/case'><li>Gabinetes</li></a>
-                    <a href='/category/motherboard'><li>Motherboard</li></a>
-                    <a href='/category/gpu'><li>Placas de video</li></a>
-                    <a href='/category/ram'><li>Memorias RAM</li></a>
-                    <a href='/category/fuentes'><li>Fuentes</li></a>
-                    <a href='/category/ssd'><li>Almacenamiento</li></a>
-                    <a href='/category/waterColling'><li>Disipador</li></a>
+                <ul> 
+                    {{#each products}}
+                        <a href='productos/category/{{this.category}}'><li>{{this.category}}</li></a>
+                    {{/each}}
                 </ul>
             </div>
         </div>
@@ -79,14 +74,9 @@
             <div  class="clasificacion__item">
                 <h2 class="clasificacion__titulo clasificacion__border">Categorías</h2>
                 <ul>    
-                    <a href='/category/proccessor'><li>Procesadores</li></a>
-                    <a href='/category/case'><li>Gabinetes</li></a>
-                    <a href='/category/motherboard'><li>Motherboard</li></a>
-                    <a href='/category/gpu'><li>Placas de video</li></a>
-                    <a href='/category/ram'><li>Memorias RAM</li></a>
-                    <a href='/category/fuentes'><li>Fuentes</li></a>
-                    <a href='/category/ssd'><li>Almacenamiento</li></a>
-                    <a href='/category/waterColling'><li>Disipador</li></a>
+                    {{#each products}}
+                        <a href='productos/category/{{this.category}}'><li>{{this.category}}</li></a>
+                    {{/each}}
                 </ul>
             </div>
         </div>

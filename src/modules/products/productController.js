@@ -11,6 +11,16 @@ const getProducts = async (req,res) => {
     res.render('products', {products, user, admin, idCart, name:user});
 }
 
+const getProductsByCategory = async (req, res) => {
+    const category = req.params.category;
+    const user = req.session.usuario;
+    const admin = process.env.ADMIN;
+    const idCart = req.session.cart;
+    const allProducts = await productService.getListProducts();
+    const productsByCategory = allProducts.filter(prod => prod.category == category);
+    res.render('productsCategory', {productsByCategory, idCart, admin, name:user, category});
+};
+
 const getProductsById = async (req, res) => {
     const idProd = req.params.id;
     const products = await productService.getProductById(idProd);
@@ -29,9 +39,10 @@ const addProduct = async (req,res) => {
     res.render('products', {products, user, admin, newId});
 }
 
-const getUpdateView = (req, res) => {
+const getUpdateView = async (req, res) => {
     const id = parseInt(req.params.id);
-    res.render('updateProduct', {id});
+    const products = await productService.getProductById(id);
+    res.render('updateProduct', {id, products});
 };
 
 const updateProduct = async (req, res) => {
@@ -57,5 +68,6 @@ module.exports = {
     deleteProductById,
     updateProduct,
     getUpdateView,
-    getProductsById
+    getProductsById,
+    getProductsByCategory
 }

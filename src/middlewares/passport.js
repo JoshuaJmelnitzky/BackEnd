@@ -4,9 +4,6 @@ const LocalStrategy = require('passport-local').Strategy;
 const { MongoClient } = require('mongodb');
 const { MONGO_CONNECTION } = process.env;
 
-const { CartService } = require('../modules/cart/cartService');
-const cartService = new CartService();
- 
 const connectMongo = ( async () => {
     const mongo = new MongoClient(MONGO_CONNECTION);
     err => {
@@ -51,14 +48,7 @@ const connectMongo = ( async () => {
 
     passport.use('login', new LocalStrategy( async (username, password, callback) => {
         const user = await findUser(username);
-        if (user.length == 0 || !bcrypt.compareSync(password, user[0].password)){
-            const idCart = await cartService.createCart(user);
-            req.cart = idCart;
-            const token = generateToken({user, idCart});
-            res.cookie("token", token);
-            req.user = user;
-            return callback(null, false, { message: 'Usuario no registrado o password incorrecto'})
-        };
+        if (user.length == 0 || !bcrypt.compareSync(password, user[0].password)) return callback(null, false, { message: 'Usuario no registrado o password incorrecto'});
         callback(null, user);
     }));    
 

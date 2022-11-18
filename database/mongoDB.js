@@ -65,7 +65,7 @@ class ClientMongoDb {
   
     async getById(idSearch) {
       try {
-        const objectFinded = await this.collection.find({id: idSearch});
+        const objectFinded = await this.collection.find({id: idSearch}).lean();
         if (objectFinded.length > 0) {
             return objectFinded;
         }
