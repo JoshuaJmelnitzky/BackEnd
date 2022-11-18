@@ -4,11 +4,19 @@ const productService = new ProductService();
 
 
 const getProducts = async (req,res) => {
+    let categorys = [];
     const products = await productService.getListProducts();
+    
+    products.forEach(el => {
+        if(!categorys.includes(el.category)){
+            categorys.push(el.category);
+        };
+    });    
+
     const user = req.session.usuario;
     const admin = process.env.ADMIN;
     const idCart = req.session.cart;
-    res.render('products', {products, user, admin, idCart, name:user});
+    res.render('products', {products, user, admin, idCart, name:user, categorys});
 }
 
 const getProductsByCategory = async (req, res) => {
@@ -23,7 +31,7 @@ const getProductsByCategory = async (req, res) => {
 
 const getProductsById = async (req, res) => {
     const idProd = req.params.id;
-    const products = await productService.getProductById(idProd);
+    const products = [await productService.getProductById(idProd)];
     const user = req.session.usuario;
     const admin = process.env.ADMIN;
     const idCart = req.session.cart;

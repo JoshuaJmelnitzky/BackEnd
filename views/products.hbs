@@ -15,12 +15,12 @@
 
 <div class="container product__container--marginTop">
     <div class="row">
-        <div class="col-md-3 clasificacion__background">
+        <div class="col-md-3 clasificacion__background">    
             <div  class="clasificacion__item">
                 <h2 class="clasificacion__titulo clasificacion__border">Categorías</h2>
                 <ul> 
-                    {{#each products}}
-                        <a href='productos/category/{{this.category}}'><li>{{this.category}}</li></a>
+                    {{#each categorys}}
+                        <a href='productos/category/{{this}}'><li>{{this}}</li></a>
                     {{/each}}
                 </ul>
             </div>
@@ -74,8 +74,8 @@
             <div  class="clasificacion__item">
                 <h2 class="clasificacion__titulo clasificacion__border">Categorías</h2>
                 <ul>    
-                    {{#each products}}
-                        <a href='productos/category/{{this.category}}'><li>{{this.category}}</li></a>
+                    {{#each categorys}}
+                        <a href='productos/category/{{this}}'><li>{{this}}</li></a>
                     {{/each}}
                 </ul>
             </div>
