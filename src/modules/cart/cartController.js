@@ -67,6 +67,10 @@ const checkout = async (req, res) => {
     const name = req.session.usuario;
     const orderNumber = await orderService.createOrder(name, cartFinded.products);
     const totalOrder = productsInCart.reduce((ac, prod) => ac += (prod.price), 0);
+    
+    cartFinded.products = []; 
+    await cartService.updateCart(idCart, cartFinded);
+
     res.render('ordenes', {name, productsInCart, orderNumber, totalOrder});
   }
 };
