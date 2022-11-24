@@ -1,3 +1,4 @@
+{{#if productsByCategory}}
 <h1>Productos de la categoría {{this.category}}</h1>
  <div class="offset-md-3 col-md-9 products--grid">
     {{#each productsByCategory}}
@@ -25,5 +26,15 @@
     {{/each}}
 
 </div>
+
+{{else}}
+<div class="empty-products">
+    <img src="https://cdn-icons-png.flaticon.com/512/43/43533.png" alt="">
+    <h3>No hay productos cargados en la categoría {{this.category}} todavía</h3>
+</div>
+
+{{/if}}
+
+
 
 <a href="/productos"><button class="btn btn-success">Volver a productos</button></a>

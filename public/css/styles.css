@@ -352,6 +352,7 @@ footer{
     display: flex;
     flex-direction: column;
     text-align: center;
+    align-items: center;
 }
 
 .empty-products h3{
@@ -360,7 +361,7 @@ footer{
 }
 
 .empty-products img{
-    size: 30px;
+    width: 200px;
 }
 
 .cart-empty{

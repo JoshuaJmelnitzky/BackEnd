@@ -31,7 +31,10 @@ const getProductsByCategory = async (req, res) => {
 
 const getProductsById = async (req, res) => {
     const idProd = req.params.id;
-    const products = [await productService.getProductById(idProd)];
+    let products = await productService.getProductById(idProd);
+
+    if (products) products = [products];
+    
     const user = req.session.usuario;
     const admin = process.env.ADMIN;
     const idCart = req.session.cart;
