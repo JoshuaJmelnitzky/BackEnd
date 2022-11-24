@@ -10,7 +10,7 @@ const registerView = async (_, res) => {
 }
 
 const registerNewUser = async (req, res) => {
-    // sendMail(req.body);
+    sendMail(req.body);
     res.render('logIn');
 }
 

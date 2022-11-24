@@ -25,7 +25,7 @@ const sendMail = (dataUser) => {
                 <p>teléfono: ${dataUser.phone}</p>`,
         attachments: [
             {
-                path: `../DESAFIOS/public/avatars/${dataUser.username}.jpeg`
+                path: __dirname+`/../public/avatars/${dataUser.username}.jpeg` 
             }
         ]
     };
