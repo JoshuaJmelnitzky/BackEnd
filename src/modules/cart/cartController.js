@@ -1,6 +1,7 @@
 const { CartService } = require(`./cartService`);
 const { ProductService } = require('../products/productService');
 const { OrderService } = require('../orders/ordersService')
+const { sendMailOrder } =  require('../../../utils/nodemail');
 
 const cartService = new CartService();
 const productService = new ProductService();
@@ -67,7 +68,8 @@ const checkout = async (req, res) => {
     const name = req.session.usuario;
     const orderNumber = await orderService.createOrder(name, cartFinded.products);
     const totalOrder = productsInCart.reduce((ac, prod) => ac += (prod.price), 0);
-    
+    sendMailOrder(name, orderNumber, totalOrder, productsInCart);
+
     cartFinded.products = []; 
     await cartService.updateCart(idCart, cartFinded);
 

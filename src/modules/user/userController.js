@@ -1,4 +1,4 @@
-const sendMail = require('../../../utils/nodemail');
+const { sendMail } = require('../../../utils/nodemail');
 const { CartService } = require('../cart/cartService');
 const { UserService } = require('./userService');
 

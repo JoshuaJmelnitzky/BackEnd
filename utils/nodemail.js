@@ -36,4 +36,43 @@ const sendMail = (dataUser) => {
     }).catch (console.log);
 };
 
-module.exports = sendMail;
+
+const sendMailOrder = (user, order, total, products) => {
+    const transporter = createTransport({
+        service: 'gmail',
+        port: 587,
+        auth: {
+            user: EMAIL,
+            pass: NODEMAILER_GMAIL
+        }
+    });
+
+    let list = "";
+    products.forEach(product => {
+      list += `<li>${product.cant} ${product.title}, Precio unitario: ${product.price}</li>`            
+    });
+
+    const mailOptions = {
+        from: 'Backend <joshua@coder.com>',
+        to: EMAIL,
+        subject: "Nueva order de compra",
+        html: ` <h1>Datos de la nueva orden de compra N°: ${order}</h1>
+                <p>Nombre de usuario (email): ${user}</p>
+                <ul>
+                    ${list}
+                </ul>
+                <p>Total de la compra: ${total}</p>`,
+
+                
+    };
+      
+    transporter.sendMail(mailOptions)
+    .then((result) => {
+        console.log(result);
+    }).catch (console.log);
+};
+
+module.exports = {
+    sendMail,
+    sendMailOrder
+};
