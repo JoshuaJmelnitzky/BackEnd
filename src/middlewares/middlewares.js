@@ -1,6 +1,6 @@
 const requiereAutenticacion = (req, res, next) => {
-    if (req.isAuthenticated()) return next();
-    res.render('logIn');
+    if (!req.isAuthenticated()) return res.render('logIn');;
+    next();
 };
 
 

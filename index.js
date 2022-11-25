@@ -2,7 +2,6 @@ require("dotenv").config();
 var methodOverride = require('method-override')
 const express = require("express");
 const {engine} = require("express-handlebars");
-const userRoutes = require('./src/modules/user/userRoutes');
 const apiRoutes = require('./src/routes/index');
 const randomRoutes = require('./Routes/numberRandom/numberRandom');
 const ContenedorNuevo = require('./Routes/chat/chat');
@@ -50,7 +49,6 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 app.use('/', apiRoutes);
-app.use(userRoutes);
 app.use("/api/randoms", randomRoutes);
 app.use(express.static('public'));
 
@@ -60,7 +58,6 @@ app.set("views", "./views");
 app.engine("hbs", engine({
     extname: ".hbs",
     defaultLayout: "main.hbs",
-    // layoutsDir: __dirname + "/views/layouts",     => Consultar como escribir esto
     partialsDir: __dirname + "/views/partials",
     }) 
 );

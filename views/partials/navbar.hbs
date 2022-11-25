@@ -12,9 +12,11 @@
                         <a class="nav-link active" aria-current="page" href="/productos">Productos</a>
                     </li>
 
+                    {{#if name}}
                     <li class="nav-item">
                         <a class="nav-link" href="/carrito/{{idCart}}">Carrito</a>
                     </li>
+                    {{/if}}
                 </ul>
 
                 <a href="/login"><button class="btn btn-outline-success" id="hidden" type="submit">LOGIN</button></a>
