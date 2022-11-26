@@ -11,6 +11,7 @@ const registerView = async (_, res) => {
 
 const registerNewUser = async (req, res) => {
     sendMail(req.body);
+    req.session.destroy();
     res.render('logIn');
 }
 
