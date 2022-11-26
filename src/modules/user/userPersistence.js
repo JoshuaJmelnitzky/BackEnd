@@ -16,6 +16,10 @@ class UserDaoMongoDb {
     else return (dto[0]);
   }
 
+  async saveUser(user) {
+    return this.clientMongoDb.save(user);
+  }
+
 };
 
 module.exports = { UserDaoMongoDb };

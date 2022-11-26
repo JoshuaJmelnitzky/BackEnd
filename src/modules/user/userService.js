@@ -9,6 +9,11 @@ class UserService {
   async findUser(username) {
     return await this.dao.getUserById(username);
   }
+
+
+  async saveUser(user) {
+    await this.dao.saveUser(user);
+  }
     
 };
     
