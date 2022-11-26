@@ -33,16 +33,16 @@ const addProductToCart = async (req, res) => {
     else {
       const productFindedInCart = cartFinded.products.find(prod => prod.id == productToAdd.id)
       if (!productFindedInCart) {
-        productToAdd.cant = 1;
+        productToAdd.qty = 1;
         cartFinded.products.push(productToAdd);
       } else {
-        productToAdd.cant = productFindedInCart.cant + 1;
-        cartFinded.products.map(prod => {if(prod.id == productToAdd.id) prod.cant = productToAdd.cant});
+        productToAdd.qty = productFindedInCart.qty + 1;
+        cartFinded.products.map(prod => {if(prod.id == productToAdd.id) prod.qty = productToAdd.qty});
       }
       const cartModified = await cartService.updateCart(idCart, cartFinded);
       const productsInCart = cartModified[0].products;
       const name = req.session.usuario;
-      res.render('cart', {name, cartModified, productsInCart, idCart});
+      res.render('cart', {name, productsInCart, idCart});
     }
   }
 };
@@ -67,7 +67,7 @@ const checkout = async (req, res) => {
     const productsInCart = cartFinded.products;
     const name = req.session.usuario;
     const orderNumber = await orderService.createOrder(name, cartFinded.products);
-    const totalOrder = productsInCart.reduce((ac, prod) => ac += (prod.price), 0);
+    const totalOrder = productsInCart.reduce((ac, prod) => ac += (prod.price * prod.qty), 0);
     sendMailOrder(name, orderNumber, totalOrder, productsInCart);
 
     cartFinded.products = []; 

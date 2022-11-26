@@ -431,3 +431,11 @@ footer{
     font-style: initial;
 }
 
+.container__cart_center{
+    display: flex;
+    flex-direction: column;
+    align-content: center;
+    justify-content: center;
+    align-items: center;
+    margin: 20px 0;
+}
